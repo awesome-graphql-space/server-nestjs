@@ -1,0 +1,94 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @nestjs/graphql apollo-server-express graphql-tools graphql graphql-subscriptions prisma lodash
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Docker\Docker\Resources\bin;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\MongoDB\Server\4.0\bin;C:\flutter\bin;;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Go\bin;C:\Program Files (x86)\sbt\bin;C:\Users\AFRON CONCEPT\AppData\Local\Yarn\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\AFRON CONCEPT\AppData\Local\Microsoft\WindowsApps;C:\Users\AFRON CONCEPT\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\AFRON CONCEPT\AppData\Local\.meteor;C:\Users\AFRON CONCEPT\AppData\Roaming\npm;%GOPATH%\bin
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  10.7.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/webpack/-/webpack-4.16.5.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:135306:19)
+      at Object.onceWrapper (events.js:273:13)
+      at ClientRequest.emit (events.js:182:13)
+      at TLSSocket.emitRequestTimeout (_http_client.js:652:40)
+      at Object.onceWrapper (events.js:273:13)
+      at TLSSocket.emit (events.js:182:13)
+      at TLSSocket.Socket._onTimeout (net.js:448:8)
+      at ontimeout (timers.js:427:11)
+      at tryOnTimeout (timers.js:289:5)
+      at listOnTimeout (timers.js:252:5)
+
+npm manifest: 
+  {
+    "name": "graphql-boilerplate-server",
+    "version": "0.0.1",
+    "description": "graphql boilerplate server",
+    "author": "Rex Raphael",
+    "license": "MIT",
+    "scripts": {
+      "format": "prettier --write \"**/*.ts\"",
+      "start": "ts-node -r tsconfig-paths/register src/main.ts",
+      "start:dev": "nodemon",
+      "prestart:prod": "rm -rf dist && tsc",
+      "start:prod": "node dist/main.js",
+      "start:hmr": "node dist/server",
+      "test": "jest",
+      "test:cov": "jest --coverage",
+      "test:e2e": "jest --config ./test/jest-e2e.json",
+      "webpack": "webpack --config webpack.config.js"
+    },
+    "dependencies": {
+      "@nestjs/common": "^5.0.0",
+      "@nestjs/core": "^5.0.0", 
+      "fastify-formbody": "^2.0.0",
+      "reflect-metadata": "^0.1.12",
+      "rxjs": "^6.0.0",
+      "typescript": "^2.6.2"
+    },
+    "devDependencies": {
+      "@nestjs/testing": "^5.0.0",
+      "@types/express": "^4.0.39",
+      "@types/jest": "^21.1.8",
+      "@types/node": "^9.3.0",
+      "@types/supertest": "^2.0.4",
+      "jest": "^21.2.1",
+      "nodemon": "^1.14.1",
+      "prettier": "^1.11.1",
+      "supertest": "^3.0.0",
+      "ts-jest": "^21.2.4",
+      "ts-loader": "^4.1.0",
+      "ts-node": "^4.1.0",
+      "tsconfig-paths": "^3.1.1",
+      "tslint": "5.3.2",
+      "webpack": "^4.2.0",
+      "webpack-cli": "^2.0.13",
+      "webpack-node-externals": "^1.6.0"
+    },
+    "jest": {
+      "moduleFileExtensions": [
+        "js",
+        "json",
+        "ts"
+      ],
+      "rootDir": "src",
+      "testRegex": ".spec.ts$",
+      "transform": {
+        "^.+\\.(t|j)s$": "ts-jest"
+      },
+      "coverageDirectory": "../coverage"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
