@@ -2,7 +2,7 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @nestjs/graphql apollo-server-express graphql-tools graphql graphql-subscriptions prisma lodash
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Docker\Docker\Resources\bin;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\MongoDB\Server\4.0\bin;C:\flutter\bin;;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Go\bin;C:\Program Files (x86)\sbt\bin;C:\Users\AFRON CONCEPT\AppData\Local\Yarn\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\AFRON CONCEPT\AppData\Local\Microsoft\WindowsApps;C:\Users\AFRON CONCEPT\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\AFRON CONCEPT\AppData\Local\.meteor;C:\Users\AFRON CONCEPT\AppData\Roaming\npm;%GOPATH%\bin
+  C:\Users\AFRON CONCEPT\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\AFRON CONCEPT\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Docker\Docker\Resources\bin;C:\Python27;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Yarn\bin;C:\Program Files\Git\cmd;C:\Program Files\PuTTY;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MongoDB\Server\4.0\bin;C:\flutter\bin;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\Go\bin;C:\Program Files (x86)\sbt\bin;C:\Users\AFRON CONCEPT\AppData\Local\Yarn\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\AFRON CONCEPT\AppData\Local\Microsoft\WindowsApps;C:\Users\AFRON CONCEPT\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\AFRON CONCEPT\AppData\Local\.meteor;C:\Users\AFRON CONCEPT\AppData\Roaming\npm;%GOPATH%\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
   1.7.0
@@ -51,7 +51,10 @@ npm manifest:
       "fastify-formbody": "^2.0.0",
       "reflect-metadata": "^0.1.12",
       "rxjs": "^6.0.0",
-      "typescript": "^2.6.2"
+      "typescript": "^2.6.2",
+      "dotenv": "^6.0.0",
+      "graphql-import": "^0.6.0",
+      "prisma-binding": "^2.1.1"
     },
     "devDependencies": {
       "@nestjs/testing": "^5.0.0",
