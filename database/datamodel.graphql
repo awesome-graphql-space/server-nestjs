@@ -1,7 +1,7 @@
 type User {
   id: ID! @unique
   password: String!
-  username: String!
+  username: String! @unique
   displayName: String!
   tweets: [Tweet!]
 }
@@ -10,7 +10,7 @@ type Tweet {
   id: ID! @unique
   text: String!
   upload: String!
-  slug: String
+  slug: String @unique
   views: Int
   author: User!
 }
