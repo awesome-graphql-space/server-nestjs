@@ -9,6 +9,10 @@ import { AuthModule } from './auth/auth.module';
 
 // tslint:disable-next-line:no-var-requires
 const { ApolloServer } = require('apollo-server');
+// tslint:disable-next-line:no-var-requires
+const { importSchema } = require('graphql-import');
+// tslint:disable-next-line:no-var-requires
+const path = require('path');
 
 @Module({
   imports: [
@@ -25,7 +29,6 @@ const { ApolloServer } = require('apollo-server');
 export class AppModule {
   /**
    * @description Construct the app module with graphql enabled
-   * @param subscriptionsService takes the subscription service
    * @param graphQLFactory takes the nestjs graphql service service
    */
   constructor(
@@ -33,29 +36,23 @@ export class AppModule {
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
-    const schema = this.createSchema();
-    // this.initSubscriptionServer(schema);=
-    // schema._directives.push.apply(schema._directives, directives);
-    // applySchemaCustomDirectives(schema);
 
+    const typeDefs = importSchema(path.resolve('src/schema.graphql'));
+
+    // this.initSubscriptionServer(schema);
     // this.subscriptionsService.createSubscriptionServer(schema);
 
     consumer
       .apply(
         new ApolloServer({
-        typeDefs: schema,
+        typeDefs,
         context: req => ({
           ...req,
           prisma: new Prisma({
             typeDefs: 'src/generated/prisma.graphql',
-            endpoint: process.env.PRISMA_URL
-          })
+            endpoint: process.env.PRISMA_URL,
+          }),
         })}))
       .forRoutes('/');
-  }
-
-  createSchema() {
-    const typeDefs = this.graphQLFactory.mergeTypesByPaths('./schema.graphql');
-    return this.graphQLFactory.createSchema({ typeDefs });
   }
 }

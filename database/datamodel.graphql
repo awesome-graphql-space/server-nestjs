@@ -1,19 +1,16 @@
 type User {
   id: ID! @unique
-  name: String!
-  email: String
-  phone: String
-  address: String
-  posts: [Post!]!
+  password: String!
+  username: String!
+  displayName: String!
+  tweets: [Tweet!]
 }
 
-type Post {
+type Tweet {
   id: ID! @unique
-  title: String!
-  content: String!
-  summary: String!
+  text: String!
+  upload: String!
   slug: String
   views: Int
-  published: Boolean! @default(value: "false")
   author: User!
 }
