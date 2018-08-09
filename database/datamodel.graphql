@@ -3,7 +3,7 @@ type User {
   password: String!
   username: String! @unique
   displayName: String!
-  tweets: [Tweet!]
+  tweets: [Tweet!]!
 }
 
 type Tweet {
@@ -14,3 +14,7 @@ type Tweet {
   views: Int
   author: User!
 }
+
+type Manjula {
+  id: ID! @unique
+} 

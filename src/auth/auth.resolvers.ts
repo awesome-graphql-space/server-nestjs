@@ -67,10 +67,11 @@ export class AuthResolvers {
       throw new MissingDataError();
     }
 
-    // const userExists = check user exist
-    /* if (userExists) {
+    const userExists = ctx.db.exists.User(
+      {username: args.username});
+    if (userExists) {
       throw new UserUsernameExistsError();
-    }*/
+    }
 
     const password = await bcrypt.hash(args.password, 10);
     const user = await ctx.db.mutation.createUser({

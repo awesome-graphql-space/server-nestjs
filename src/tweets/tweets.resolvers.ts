@@ -14,22 +14,22 @@ export class TweetsResolvers {
   constructor(private readonly userService: TweetsService) { }
 
   @Mutation()
-  async post(obj, {text, upload}: any, ctx: Context, info): Promise<JwtAuthPayload | any> {
+  async post(obj, {text, upload}: any, ctx: Context, info){
     return null;
   }
 
   @Query()
-  async tweets(obj, {text, upload}: any, ctx: Context, info): Promise<JwtAuthPayload | any> {
+  async tweets(obj, {text, upload}: any, ctx: Context, info) {
     return null;
   }
 
   @Query()
-  async myTweets(obj, {text, upload}: any, ctx: Context, info): Promise<JwtAuthPayload | any> {
+  async myTweets(obj, {text, upload}: any, ctx: Context, info){
     return null;
   }
 
   @Query()
   tweetSubscription (parent, args, ctx: Context, info) {
     return ctx.db.subscription.tweet({}, info);
-  },
+  }
 }

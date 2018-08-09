@@ -1,6 +1,6 @@
 #import User from './generated/prisma.graphql'
 #import Tweet from './generated/prisma.graphql'
-#import PostSubscriptionPayload from './generated/prisma.graphql'
+#import TweetSubscriptionPayload from './generated/prisma.graphql'
 
 type Query {
   tweets: [Tweet!]
@@ -17,7 +17,7 @@ type Mutation {
 }
 
 type Subscription {
-  tweetSubscription: PostSubscriptionPayload!
+  tweetSubscription: TweetSubscriptionPayload!
 }
 
 type AuthPayload {

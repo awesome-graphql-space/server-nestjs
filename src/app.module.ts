@@ -39,12 +39,7 @@ export class AppModule {
 
     const typeDefs = importSchema(path.resolve('src/schema.graphql'));
 
-    // this.initSubscriptionServer(schema);
-    // this.subscriptionsService.createSubscriptionServer(schema);
-
-    consumer
-      .apply(
-        new ApolloServer({
+    const server = new ApolloServer({
         typeDefs,
         context: req => ({
           ...req,
@@ -52,7 +47,13 @@ export class AppModule {
             typeDefs: 'src/generated/prisma.graphql',
             endpoint: process.env.PRISMA_URL,
           }),
-        })}))
-      .forRoutes('/');
+        })});
+
+    // this.initSubscriptionServer(schema);
+    // this.subscriptionsService.createSubscriptionServer(schema);
+
+    consumer
+      .apply(server)
+      .forRoutes('/graphql');
   }
 }
