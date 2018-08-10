@@ -1,4 +1,4 @@
-extend type Query {
+type Query {
   tweets: [AuthPayload!]
   myTweets: [AuthPayload!]
   currentUser: AuthPayload!
