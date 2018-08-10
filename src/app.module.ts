@@ -7,17 +7,20 @@ import { TweetsModule } from './tweets/tweets.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
+
 // tslint:disable-next-line:no-var-requires
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
 // tslint:disable-next-line:no-var-requires
 const { importSchema } = require('graphql-import');
+
 // tslint:disable-next-line:no-var-requires
 const path = require('path');
 
+
 @Module({
   imports: [
-    AuthModule,
     GraphQLModule,
+    AuthModule,
     TweetsModule,
     UsersModule,
   ],
@@ -35,25 +38,16 @@ export class AppModule {
     private readonly graphQLFactory: GraphQLFactory,
   ) {}
 
-  configure(consumer: MiddlewareConsumer) {
-
-    const typeDefs = importSchema(path.resolve('src/schema.graphql'));
-
+   configureGraphQL(app: any, httpServer: any) {
+   
+   
+    // Same as nestjs docs - graphql guide
+    const typeDefs = importSchema(path.resolve('src/schema/schema.graphql'));
+    const schema = this.graphQLFactory.createSchema({ typeDefs });
     const server = new ApolloServer({
-        typeDefs,
-        context: req => ({
-          ...req,
-          prisma: new Prisma({
-            typeDefs: 'src/generated/prisma.graphql',
-            endpoint: process.env.PRISMA_URL,
-          }),
-        })});
-
-    // this.initSubscriptionServer(schema);
-    // this.subscriptionsService.createSubscriptionServer(schema);
-
-    consumer
-      .apply(server)
-      .forRoutes('/graphql');
+      typeDefs
+    });
+    server.applyMiddleware({ app });
   }
+  
 }
