@@ -1,26 +1,21 @@
-#import User from '../generated/prisma.graphql'
-#import Tweet from '../generated/prisma.graphql'
-#import TweetSubscriptionPayload from '../generated/prisma.graphql'
-
-type Query {
-  tweets: [Tweet!]
-  myTweets: [Tweet!]
-  currentUser: User!
+extend type Query {
+  tweets: [AuthPayload!]
+  myTweets: [AuthPayload!]
+  currentUser: AuthPayload!
 }
 
 type Mutation {
   signup(displayName: String!, username: String!, password: String!): AuthPayload!
   login(username: String!, password: String!): AuthPayload!
-  changePassword(oldPassword: String!, newPassword: String!): Tweet!
-  post(text: String!, upload: String): Tweet!
-  deleteTweet(id: ID!): Tweet!
+  changePassword(oldPassword: String!, newPassword: String!): AuthPayload!
+  post(text: String!, upload: String): AuthPayload!
+  deleteTweet(id: ID!): AuthPayload!
 }
 
 type Subscription {
-  tweetSubscription: TweetSubscriptionPayload!
+  tweetSubscription: AuthPayload!
 }
 
 type AuthPayload {
   token: String!
-  user: User
 }

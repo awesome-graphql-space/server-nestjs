@@ -6,9 +6,9 @@ async function bootstrap() {
   const appModule = app.get(AppModule);
   // appModule.configureGraphQL(app);
   // await app.listen(3000); 
+  
   const httpServer = app.getHttpServer();
   appModule.configureGraphQL(app, httpServer); 
   await app.listen(3000); 
-  
 }
 bootstrap();

@@ -32,7 +32,6 @@
     "graphql-tools": "^3.1.1",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
-    "prisma": "^1.13.6",
     "prisma-binding": "^2.1.1",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.0.0",
