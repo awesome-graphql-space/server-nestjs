@@ -27,9 +27,4 @@ export class TweetsResolvers {
   async myTweets(obj, {text, upload}: any, ctx: Context, info){
     return null;
   }
-
-  @Subscription()
-  tweetSubscription(parent, args, ctx: Context, info) {
-    return null; // ctx.db.subscription.tweet({}, info);
-  }
 }
