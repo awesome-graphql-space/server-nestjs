@@ -10,6 +10,10 @@
 
 * We already have the GraphQLModule in NestJS that is nothing more than a wrapper around the Apollo server. We don't reinvent the wheel but provide a ready to use a module instead, that brings a clean way to play with the GraphQL and Nest together.
 
+#### NestJS Framework is not compatible with Apollo Server 2 as of now, so this was major win for us:)
+ 
+ Thanks to [issue](https://github.com/nestjs/graphql/issues/32) that helped us to build the boilerplate the right way :)
+
 
 ## Installation
 
