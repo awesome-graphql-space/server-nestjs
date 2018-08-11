@@ -67,10 +67,9 @@ export class AuthResolvers {
       throw new MissingDataError();
     }
 
-    const userExists = ctx.db.exists.User(
-      {username: args.username});
+    const userExists = ctx.db.exists.User({username: args.username});
     if (userExists) {
-      throw new UserUsernameExistsError();
+      // throw new UserUsernameExistsError();
     }
 
     const password = await bcrypt.hash(args.password, 10);
