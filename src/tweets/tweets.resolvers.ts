@@ -28,8 +28,8 @@ export class TweetsResolvers {
     return null;
   }
 
-  @Query()
-  tweetSubscription (parent, args, ctx: Context, info) {
-    return ctx.db.subscription.tweet({}, info);
+  @Subscription()
+  tweetSubscription(parent, args, ctx: Context, info) {
+    return null; // ctx.db.subscription.tweet({}, info);
   }
 }

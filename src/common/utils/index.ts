@@ -1,9 +1,10 @@
 import * as jwt from 'jsonwebtoken';
 import { createError } from 'apollo-errors';
-
+import { Prisma } from '../../generated/prisma';
 
 // Prisma context interface for better code completeion
 export interface Context {
+  db: Prisma;
   request: any;
 }
 
