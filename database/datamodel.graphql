@@ -9,12 +9,8 @@ type User {
 type Tweet {
   id: ID! @unique
   text: String!
-  upload: String!
+  upload: String
   slug: String @unique
   views: Int
   author: User!
 }
-
-type Manjula {
-  id: ID! @unique
-} 

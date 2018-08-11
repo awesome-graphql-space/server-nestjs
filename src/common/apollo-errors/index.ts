@@ -4,6 +4,10 @@ export const MissingDataError = createError('MissingDataError', {
   message: 'Not all required fields are filled in.',
 });
 
+export const NotAuthenticatedError = createError('NotAuthenticatedError', {
+  message: 'Not authourized to make this action.',
+});
+
 export const NoConnectionError = createError('NoConnectionError', {
   message: 'No connection found.',
 });

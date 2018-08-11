@@ -16,12 +16,16 @@ export const jtwSecret = 'KLSKDJUY$%@!&^&^@#!&^%!@$Vgdgsdf_()900*&%^$%#@@hf15617
  * @param ctx takes the graphql context
  */
 export function getUserId(ctx: any): string {
-  const Authorization = ctx.req.headers.authorization;
+  const Authorization = ctx.headers.authorization;
+  // tslint:disable-next-line:no-console
+  console.log(Authorization);
   if (Authorization) {
     const token = Authorization.replace('Bearer ', jtwSecret);
-    const { userId } = jwt.verify(token, jtwSecret) as {
-      userId: string;
-    };
+    // tslint:disable-next-line:no-console
+    console.log(token);
+    const { userId } = jwt.verify(token, jtwSecret);
+    // tslint:disable-next-line:no-console
+    console.log(userId);
     return userId;
   }
 

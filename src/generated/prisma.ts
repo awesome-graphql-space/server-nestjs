@@ -2,10 +2,6 @@ import { Prisma as BasePrisma, BasePrismaOptions } from 'prisma-binding'
 import { GraphQLResolveInfo } from 'graphql'
 
 export const typeDefs = `
-type AggregateManjula {
-  count: Int!
-}
-
 type AggregateTweet {
   count: Int!
 }
@@ -26,163 +22,6 @@ The 'Long' scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
-
-type Manjula implements Node {
-  id: ID!
-}
-
-"""
-A connection to a list of items.
-"""
-type ManjulaConnection {
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-  """
-  A list of edges.
-  """
-  edges: [ManjulaEdge]!
-  aggregate: AggregateManjula!
-}
-
-"""
-An edge in a connection.
-"""
-type ManjulaEdge {
-  """
-  The item at the end of the edge.
-  """
-  node: Manjula!
-  """
-  A cursor for use in pagination.
-  """
-  cursor: String!
-}
-
-enum ManjulaOrderByInput {
-  id_ASC
-  id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type ManjulaPreviousValues {
-  id: ID!
-}
-
-type ManjulaSubscriptionPayload {
-  mutation: MutationType!
-  node: Manjula
-  updatedFields: [String!]
-  previousValues: ManjulaPreviousValues
-}
-
-input ManjulaSubscriptionWhereInput {
-  """
-  Logical AND on all given filters.
-  """
-  AND: [ManjulaSubscriptionWhereInput!]
-  """
-  Logical OR on all given filters.
-  """
-  OR: [ManjulaSubscriptionWhereInput!]
-  """
-  Logical NOT on all given filters combined by AND.
-  """
-  NOT: [ManjulaSubscriptionWhereInput!]
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: ManjulaWhereInput
-}
-
-input ManjulaWhereInput {
-  """
-  Logical AND on all given filters.
-  """
-  AND: [ManjulaWhereInput!]
-  """
-  Logical OR on all given filters.
-  """
-  OR: [ManjulaWhereInput!]
-  """
-  Logical NOT on all given filters combined by AND.
-  """
-  NOT: [ManjulaWhereInput!]
-  id: ID
-  """
-  All values that are not equal to given value.
-  """
-  id_not: ID
-  """
-  All values that are contained in given list.
-  """
-  id_in: [ID!]
-  """
-  All values that are not contained in given list.
-  """
-  id_not_in: [ID!]
-  """
-  All values less than the given value.
-  """
-  id_lt: ID
-  """
-  All values less than or equal the given value.
-  """
-  id_lte: ID
-  """
-  All values greater than the given value.
-  """
-  id_gt: ID
-  """
-  All values greater than or equal the given value.
-  """
-  id_gte: ID
-  """
-  All values containing the given string.
-  """
-  id_contains: ID
-  """
-  All values not containing the given string.
-  """
-  id_not_contains: ID
-  """
-  All values starting with the given string.
-  """
-  id_starts_with: ID
-  """
-  All values not starting with the given string.
-  """
-  id_not_starts_with: ID
-  """
-  All values ending with the given string.
-  """
-  id_ends_with: ID
-  """
-  All values not ending with the given string.
-  """
-  id_not_ends_with: ID
-}
-
-input ManjulaWhereUniqueInput {
-  id: ID
-}
 
 enum MutationType {
   CREATED
@@ -225,7 +64,7 @@ type PageInfo {
 type Tweet implements Node {
   id: ID!
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
   author(where: UserWhereInput): User!
@@ -248,7 +87,7 @@ type TweetConnection {
 
 input TweetCreateInput {
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
   author: UserCreateOneWithoutTweetsInput!
@@ -261,7 +100,7 @@ input TweetCreateManyWithoutAuthorInput {
 
 input TweetCreateWithoutAuthorInput {
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
 }
@@ -300,7 +139,7 @@ enum TweetOrderByInput {
 type TweetPreviousValues {
   id: ID!
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
 }
@@ -1021,31 +860,25 @@ input UserWhereUniqueInput {
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createTweet(data: TweetCreateInput!): Tweet!
-  createManjula: Manjula!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateTweet(data: TweetUpdateInput!, where: TweetWhereUniqueInput!): Tweet
   deleteUser(where: UserWhereUniqueInput!): User
   deleteTweet(where: TweetWhereUniqueInput!): Tweet
-  deleteManjula(where: ManjulaWhereUniqueInput!): Manjula
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertTweet(where: TweetWhereUniqueInput!, create: TweetCreateInput!, update: TweetUpdateInput!): Tweet!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyTweets(data: TweetUpdateInput!, where: TweetWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyTweets(where: TweetWhereInput): BatchPayload!
-  deleteManyManjulas(where: ManjulaWhereInput): BatchPayload!
 }
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   tweets(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tweet]!
-  manjulas(where: ManjulaWhereInput, orderBy: ManjulaOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Manjula]!
   user(where: UserWhereUniqueInput!): User
   tweet(where: TweetWhereUniqueInput!): Tweet
-  manjula(where: ManjulaWhereUniqueInput!): Manjula
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   tweetsConnection(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TweetConnection!
-  manjulasConnection(where: ManjulaWhereInput, orderBy: ManjulaOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ManjulaConnection!
   """
   Fetches an object given its ID
   """
@@ -1058,7 +891,6 @@ type Query {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   tweet(where: TweetSubscriptionWhereInput): TweetSubscriptionPayload
-  manjula(where: ManjulaSubscriptionWhereInput): ManjulaSubscriptionPayload
 }
 `
 
@@ -1092,24 +924,16 @@ export type TweetOrderByInput =
   'createdAt_ASC' |
   'createdAt_DESC'
 
-export type ManjulaOrderByInput = 
-  'id_ASC' |
-  'id_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
 export type MutationType = 
   'CREATED' |
   'UPDATED' |
   'DELETED'
 
-export interface UserCreateInput {
-  password: String
-  username: String
-  displayName: String
-  tweets?: TweetCreateManyWithoutAuthorInput
+export interface TweetCreateWithoutAuthorInput {
+  text: String
+  upload?: String
+  slug?: String
+  views?: Int
 }
 
 export interface UserWhereInput {
@@ -1177,21 +1001,6 @@ export interface UserWhereInput {
   tweets_none?: TweetWhereInput
 }
 
-export interface UserUpdateOneWithoutTweetsInput {
-  create?: UserCreateWithoutTweetsInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateWithoutTweetsDataInput
-  upsert?: UserUpsertWithoutTweetsInput
-}
-
-export interface TweetCreateWithoutAuthorInput {
-  text: String
-  upload: String
-  slug?: String
-  views?: Int
-}
-
 export interface TweetUpdateInput {
   text?: String
   upload?: String
@@ -1200,12 +1009,10 @@ export interface TweetUpdateInput {
   author?: UserUpdateOneWithoutTweetsInput
 }
 
-export interface TweetCreateInput {
-  text: String
-  upload: String
-  slug?: String
-  views?: Int
-  author: UserCreateOneWithoutTweetsInput
+export interface UserCreateWithoutTweetsInput {
+  password: String
+  username: String
+  displayName: String
 }
 
 export interface TweetUpsertWithWhereUniqueWithoutAuthorInput {
@@ -1214,15 +1021,9 @@ export interface TweetUpsertWithWhereUniqueWithoutAuthorInput {
   create: TweetCreateWithoutAuthorInput
 }
 
-export interface TweetSubscriptionWhereInput {
-  AND?: TweetSubscriptionWhereInput[] | TweetSubscriptionWhereInput
-  OR?: TweetSubscriptionWhereInput[] | TweetSubscriptionWhereInput
-  NOT?: TweetSubscriptionWhereInput[] | TweetSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: TweetWhereInput
+export interface UserCreateOneWithoutTweetsInput {
+  create?: UserCreateWithoutTweetsInput
+  connect?: UserWhereUniqueInput
 }
 
 export interface TweetUpdateWithoutAuthorDataInput {
@@ -1313,66 +1114,11 @@ export interface UserWhereUniqueInput {
   username?: String
 }
 
-export interface TweetUpdateManyWithoutAuthorInput {
-  create?: TweetCreateWithoutAuthorInput[] | TweetCreateWithoutAuthorInput
-  connect?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
-  disconnect?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
-  delete?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
-  update?: TweetUpdateWithWhereUniqueWithoutAuthorInput[] | TweetUpdateWithWhereUniqueWithoutAuthorInput
-  upsert?: TweetUpsertWithWhereUniqueWithoutAuthorInput[] | TweetUpsertWithWhereUniqueWithoutAuthorInput
-}
-
-export interface ManjulaWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface UserUpdateInput {
-  password?: String
-  username?: String
-  displayName?: String
-  tweets?: TweetUpdateManyWithoutAuthorInput
-}
-
-export interface UserUpdateWithoutTweetsDataInput {
-  password?: String
-  username?: String
-  displayName?: String
-}
-
-export interface ManjulaWhereInput {
-  AND?: ManjulaWhereInput[] | ManjulaWhereInput
-  OR?: ManjulaWhereInput[] | ManjulaWhereInput
-  NOT?: ManjulaWhereInput[] | ManjulaWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-}
-
-export interface TweetCreateManyWithoutAuthorInput {
-  create?: TweetCreateWithoutAuthorInput[] | TweetCreateWithoutAuthorInput
-  connect?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
-}
-
-export interface UserCreateOneWithoutTweetsInput {
-  create?: UserCreateWithoutTweetsInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface UserCreateWithoutTweetsInput {
+export interface UserCreateInput {
   password: String
   username: String
   displayName: String
+  tweets?: TweetCreateManyWithoutAuthorInput
 }
 
 export interface UserSubscriptionWhereInput {
@@ -1386,15 +1132,47 @@ export interface UserSubscriptionWhereInput {
   node?: UserWhereInput
 }
 
-export interface ManjulaSubscriptionWhereInput {
-  AND?: ManjulaSubscriptionWhereInput[] | ManjulaSubscriptionWhereInput
-  OR?: ManjulaSubscriptionWhereInput[] | ManjulaSubscriptionWhereInput
-  NOT?: ManjulaSubscriptionWhereInput[] | ManjulaSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: ManjulaWhereInput
+export interface UserUpdateWithoutTweetsDataInput {
+  password?: String
+  username?: String
+  displayName?: String
+}
+
+export interface UserUpdateInput {
+  password?: String
+  username?: String
+  displayName?: String
+  tweets?: TweetUpdateManyWithoutAuthorInput
+}
+
+export interface TweetCreateInput {
+  text: String
+  upload?: String
+  slug?: String
+  views?: Int
+  author: UserCreateOneWithoutTweetsInput
+}
+
+export interface TweetUpdateManyWithoutAuthorInput {
+  create?: TweetCreateWithoutAuthorInput[] | TweetCreateWithoutAuthorInput
+  connect?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
+  disconnect?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
+  delete?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
+  update?: TweetUpdateWithWhereUniqueWithoutAuthorInput[] | TweetUpdateWithWhereUniqueWithoutAuthorInput
+  upsert?: TweetUpsertWithWhereUniqueWithoutAuthorInput[] | TweetUpsertWithWhereUniqueWithoutAuthorInput
+}
+
+export interface TweetCreateManyWithoutAuthorInput {
+  create?: TweetCreateWithoutAuthorInput[] | TweetCreateWithoutAuthorInput
+  connect?: TweetWhereUniqueInput[] | TweetWhereUniqueInput
+}
+
+export interface UserUpdateOneWithoutTweetsInput {
+  create?: UserCreateWithoutTweetsInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateWithoutTweetsDataInput
+  upsert?: UserUpsertWithoutTweetsInput
 }
 
 export interface UserUpsertWithoutTweetsInput {
@@ -1407,6 +1185,17 @@ export interface TweetWhereUniqueInput {
   slug?: String
 }
 
+export interface TweetSubscriptionWhereInput {
+  AND?: TweetSubscriptionWhereInput[] | TweetSubscriptionWhereInput
+  OR?: TweetSubscriptionWhereInput[] | TweetSubscriptionWhereInput
+  NOT?: TweetSubscriptionWhereInput[] | TweetSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: TweetWhereInput
+}
+
 /*
  * An object with an ID
 
@@ -1415,8 +1204,12 @@ export interface Node {
   id: ID_Output
 }
 
-export interface ManjulaPreviousValues {
+export interface TweetPreviousValues {
   id: ID_Output
+  text: String
+  upload?: String
+  slug?: String
+  views?: Int
 }
 
 export interface BatchPayload {
@@ -1432,6 +1225,35 @@ export interface User extends Node {
 }
 
 /*
+ * Information about pagination in a connection.
+
+ */
+export interface PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor?: String
+  endCursor?: String
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType
+  node?: User
+  updatedFields?: String[]
+  previousValues?: UserPreviousValues
+}
+
+export interface AggregateTweet {
+  count: Int
+}
+
+export interface UserPreviousValues {
+  id: ID_Output
+  password: String
+  username: String
+  displayName: String
+}
+
+/*
  * A connection to a list of items.
 
  */
@@ -1439,36 +1261,6 @@ export interface UserConnection {
   pageInfo: PageInfo
   edges: UserEdge[]
   aggregate: AggregateUser
-}
-
-export interface TweetSubscriptionPayload {
-  mutation: MutationType
-  node?: Tweet
-  updatedFields?: String[]
-  previousValues?: TweetPreviousValues
-}
-
-export interface AggregateManjula {
-  count: Int
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface ManjulaEdge {
-  node: Manjula
-  cursor: String
-}
-
-/*
- * A connection to a list of items.
-
- */
-export interface ManjulaConnection {
-  pageInfo: PageInfo
-  edges: ManjulaEdge[]
-  aggregate: AggregateManjula
 }
 
 /*
@@ -1480,70 +1272,13 @@ export interface TweetEdge {
   cursor: String
 }
 
-export interface Manjula extends Node {
-  id: ID_Output
-}
-
-export interface AggregateUser {
-  count: Int
-}
-
-export interface ManjulaSubscriptionPayload {
-  mutation: MutationType
-  node?: Manjula
-  updatedFields?: String[]
-  previousValues?: ManjulaPreviousValues
-}
-
 export interface Tweet extends Node {
   id: ID_Output
   text: String
-  upload: String
+  upload?: String
   slug?: String
   views?: Int
   author: User
-}
-
-export interface UserPreviousValues {
-  id: ID_Output
-  password: String
-  username: String
-  displayName: String
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType
-  node?: User
-  updatedFields?: String[]
-  previousValues?: UserPreviousValues
-}
-
-export interface TweetPreviousValues {
-  id: ID_Output
-  text: String
-  upload: String
-  slug?: String
-  views?: Int
-}
-
-/*
- * Information about pagination in a connection.
-
- */
-export interface PageInfo {
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
-  startCursor?: String
-  endCursor?: String
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface UserEdge {
-  node: User
-  cursor: String
 }
 
 /*
@@ -1556,7 +1291,23 @@ export interface TweetConnection {
   aggregate: AggregateTweet
 }
 
-export interface AggregateTweet {
+export interface TweetSubscriptionPayload {
+  mutation: MutationType
+  node?: Tweet
+  updatedFields?: String[]
+  previousValues?: TweetPreviousValues
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface UserEdge {
+  node: User
+  cursor: String
+}
+
+export interface AggregateUser {
   count: Int
 }
 
@@ -1567,10 +1318,9 @@ Long can represent values between -(2^63) and 2^63 - 1.
 export type Long = string
 
 /*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
-export type ID_Input = string | number
-export type ID_Output = string
+export type Int = number
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
@@ -1578,9 +1328,10 @@ The `Boolean` scalar type represents `true` or `false`.
 export type Boolean = boolean
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
-export type Int = number
+export type ID_Input = string | number
+export type ID_Output = string
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -1596,38 +1347,31 @@ export interface Schema {
 export type Query = {
   users: (args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<User[]>
   tweets: (args: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<Tweet[]>
-  manjulas: (args: { where?: ManjulaWhereInput, orderBy?: ManjulaOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<Manjula[]>
   user: (args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<User | null>
   tweet: (args: { where: TweetWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet | null>
-  manjula: (args: { where: ManjulaWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Manjula | null>
   usersConnection: (args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<UserConnection>
   tweetsConnection: (args: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<TweetConnection>
-  manjulasConnection: (args: { where?: ManjulaWhereInput, orderBy?: ManjulaOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<ManjulaConnection>
   node: (args: { id: ID_Output }, info?: GraphQLResolveInfo | string) => Promise<Node | null>
 }
 
 export type Mutation = {
   createUser: (args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string) => Promise<User>
   createTweet: (args: { data: TweetCreateInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet>
-  createManjula: (args: {}, info?: GraphQLResolveInfo | string) => Promise<Manjula>
   updateUser: (args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<User | null>
   updateTweet: (args: { data: TweetUpdateInput, where: TweetWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet | null>
   deleteUser: (args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<User | null>
   deleteTweet: (args: { where: TweetWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet | null>
-  deleteManjula: (args: { where: ManjulaWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Manjula | null>
   upsertUser: (args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string) => Promise<User>
   upsertTweet: (args: { where: TweetWhereUniqueInput, create: TweetCreateInput, update: TweetUpdateInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet>
   updateManyUsers: (args: { data: UserUpdateInput, where?: UserWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
   updateManyTweets: (args: { data: TweetUpdateInput, where?: TweetWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
   deleteManyUsers: (args: { where?: UserWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
   deleteManyTweets: (args: { where?: TweetWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
-  deleteManyManjulas: (args: { where?: ManjulaWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
 }
 
 export type Subscription = {
   user: (args: { where?: UserSubscriptionWhereInput }, infoOrQuery?: GraphQLResolveInfo | string) => Promise<AsyncIterator<UserSubscriptionPayload>>
   tweet: (args: { where?: TweetSubscriptionWhereInput }, infoOrQuery?: GraphQLResolveInfo | string) => Promise<AsyncIterator<TweetSubscriptionPayload>>
-  manjula: (args: { where?: ManjulaSubscriptionWhereInput }, infoOrQuery?: GraphQLResolveInfo | string) => Promise<AsyncIterator<ManjulaSubscriptionPayload>>
 }
 
 export class Prisma extends BasePrisma {
@@ -1638,44 +1382,36 @@ export class Prisma extends BasePrisma {
 
   exists = {
     User: (where: UserWhereInput): Promise<boolean> => super.existsDelegate('query', 'users', { where }, {}, '{ id }'),
-    Tweet: (where: TweetWhereInput): Promise<boolean> => super.existsDelegate('query', 'tweets', { where }, {}, '{ id }'),
-    Manjula: (where: ManjulaWhereInput): Promise<boolean> => super.existsDelegate('query', 'manjulas', { where }, {}, '{ id }')
+    Tweet: (where: TweetWhereInput): Promise<boolean> => super.existsDelegate('query', 'tweets', { where }, {}, '{ id }')
   }
 
   query: Query = {
     users: (args, info): Promise<User[]> => super.delegate('query', 'users', args, {}, info),
     tweets: (args, info): Promise<Tweet[]> => super.delegate('query', 'tweets', args, {}, info),
-    manjulas: (args, info): Promise<Manjula[]> => super.delegate('query', 'manjulas', args, {}, info),
     user: (args, info): Promise<User | null> => super.delegate('query', 'user', args, {}, info),
     tweet: (args, info): Promise<Tweet | null> => super.delegate('query', 'tweet', args, {}, info),
-    manjula: (args, info): Promise<Manjula | null> => super.delegate('query', 'manjula', args, {}, info),
     usersConnection: (args, info): Promise<UserConnection> => super.delegate('query', 'usersConnection', args, {}, info),
     tweetsConnection: (args, info): Promise<TweetConnection> => super.delegate('query', 'tweetsConnection', args, {}, info),
-    manjulasConnection: (args, info): Promise<ManjulaConnection> => super.delegate('query', 'manjulasConnection', args, {}, info),
     node: (args, info): Promise<Node | null> => super.delegate('query', 'node', args, {}, info)
   }
 
   mutation: Mutation = {
     createUser: (args, info): Promise<User> => super.delegate('mutation', 'createUser', args, {}, info),
     createTweet: (args, info): Promise<Tweet> => super.delegate('mutation', 'createTweet', args, {}, info),
-    createManjula: (args, info): Promise<Manjula> => super.delegate('mutation', 'createManjula', args, {}, info),
     updateUser: (args, info): Promise<User | null> => super.delegate('mutation', 'updateUser', args, {}, info),
     updateTweet: (args, info): Promise<Tweet | null> => super.delegate('mutation', 'updateTweet', args, {}, info),
     deleteUser: (args, info): Promise<User | null> => super.delegate('mutation', 'deleteUser', args, {}, info),
     deleteTweet: (args, info): Promise<Tweet | null> => super.delegate('mutation', 'deleteTweet', args, {}, info),
-    deleteManjula: (args, info): Promise<Manjula | null> => super.delegate('mutation', 'deleteManjula', args, {}, info),
     upsertUser: (args, info): Promise<User> => super.delegate('mutation', 'upsertUser', args, {}, info),
     upsertTweet: (args, info): Promise<Tweet> => super.delegate('mutation', 'upsertTweet', args, {}, info),
     updateManyUsers: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'updateManyUsers', args, {}, info),
     updateManyTweets: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'updateManyTweets', args, {}, info),
     deleteManyUsers: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'deleteManyUsers', args, {}, info),
-    deleteManyTweets: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'deleteManyTweets', args, {}, info),
-    deleteManyManjulas: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'deleteManyManjulas', args, {}, info)
+    deleteManyTweets: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'deleteManyTweets', args, {}, info)
   }
 
   subscription: Subscription = {
     user: (args, infoOrQuery): Promise<AsyncIterator<UserSubscriptionPayload>> => super.delegateSubscription('user', args, {}, infoOrQuery),
-    tweet: (args, infoOrQuery): Promise<AsyncIterator<TweetSubscriptionPayload>> => super.delegateSubscription('tweet', args, {}, infoOrQuery),
-    manjula: (args, infoOrQuery): Promise<AsyncIterator<ManjulaSubscriptionPayload>> => super.delegateSubscription('manjula', args, {}, infoOrQuery)
+    tweet: (args, infoOrQuery): Promise<AsyncIterator<TweetSubscriptionPayload>> => super.delegateSubscription('tweet', args, {}, infoOrQuery)
   }
 }

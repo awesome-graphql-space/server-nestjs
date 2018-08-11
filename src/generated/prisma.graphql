@@ -1,9 +1,5 @@
 # source: https://eu1.prisma.sh/nest/prisma-test2/dev
-# timestamp: Thu Aug 09 2018 20:28:24 GMT+0200 (CEST)
-
-type AggregateManjula {
-  count: Int!
-}
+# timestamp: Sat Aug 11 2018 22:05:40 GMT+0000 (Greenwich Mean Time)
 
 type AggregateTweet {
   count: Int!
@@ -24,152 +20,19 @@ Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
 
-type Manjula implements Node {
-  id: ID!
-}
-
-"""A connection to a list of items."""
-type ManjulaConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [ManjulaEdge]!
-  aggregate: AggregateManjula!
-}
-
-"""An edge in a connection."""
-type ManjulaEdge {
-  """The item at the end of the edge."""
-  node: Manjula!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum ManjulaOrderByInput {
-  id_ASC
-  id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type ManjulaPreviousValues {
-  id: ID!
-}
-
-type ManjulaSubscriptionPayload {
-  mutation: MutationType!
-  node: Manjula
-  updatedFields: [String!]
-  previousValues: ManjulaPreviousValues
-}
-
-input ManjulaSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ManjulaSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ManjulaSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ManjulaSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: ManjulaWhereInput
-}
-
-input ManjulaWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ManjulaWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ManjulaWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ManjulaWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-}
-
-input ManjulaWhereUniqueInput {
-  id: ID
-}
-
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createTweet(data: TweetCreateInput!): Tweet!
-  createManjula: Manjula!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateTweet(data: TweetUpdateInput!, where: TweetWhereUniqueInput!): Tweet
   deleteUser(where: UserWhereUniqueInput!): User
   deleteTweet(where: TweetWhereUniqueInput!): Tweet
-  deleteManjula(where: ManjulaWhereUniqueInput!): Manjula
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertTweet(where: TweetWhereUniqueInput!, create: TweetCreateInput!, update: TweetUpdateInput!): Tweet!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyTweets(data: TweetUpdateInput!, where: TweetWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyTweets(where: TweetWhereInput): BatchPayload!
-  deleteManyManjulas(where: ManjulaWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -202,13 +65,10 @@ type PageInfo {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   tweets(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tweet]!
-  manjulas(where: ManjulaWhereInput, orderBy: ManjulaOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Manjula]!
   user(where: UserWhereUniqueInput!): User
   tweet(where: TweetWhereUniqueInput!): Tweet
-  manjula(where: ManjulaWhereUniqueInput!): Manjula
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   tweetsConnection(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TweetConnection!
-  manjulasConnection(where: ManjulaWhereInput, orderBy: ManjulaOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ManjulaConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -220,13 +80,12 @@ type Query {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   tweet(where: TweetSubscriptionWhereInput): TweetSubscriptionPayload
-  manjula(where: ManjulaSubscriptionWhereInput): ManjulaSubscriptionPayload
 }
 
 type Tweet implements Node {
   id: ID!
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
   author(where: UserWhereInput): User!
@@ -244,7 +103,7 @@ type TweetConnection {
 
 input TweetCreateInput {
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
   author: UserCreateOneWithoutTweetsInput!
@@ -257,7 +116,7 @@ input TweetCreateManyWithoutAuthorInput {
 
 input TweetCreateWithoutAuthorInput {
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
 }
@@ -291,7 +150,7 @@ enum TweetOrderByInput {
 type TweetPreviousValues {
   id: ID!
   text: String!
-  upload: String!
+  upload: String
   slug: String
   views: Int
 }

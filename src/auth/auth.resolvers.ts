@@ -1,13 +1,15 @@
-import { Injectable, UseGuards } from '@nestjs/common';
+/**
+ * @fileOverview This file contain auth payload resolver and resolvers for authentication
+ * @author Rex Raphael
+ */
 import {
-  Query,
   Mutation,
   Resolver,
   ResolveProperty,
 } from '@nestjs/graphql';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { getUserId, getUser, jtwSecret, Context } from '../common/utils';
+import { getUser, jtwSecret, Context } from '../common/utils';
 import { AuthService } from './auth.service';
 import { User } from '../users/interfaces/user.interface';
 import {
@@ -19,20 +21,36 @@ import {
 } from '../common/apollo-errors';
 import { JwtAuthPayload } from './interfaces/jwt-payload.interface';
 
+/**
+ * @description Generates the user jwt token for authentication
+ * @param user takes the current user object from prisma
+ * @param ctx accepts the apollo server context
+ */
 function generateToken(user: any, ctx: any) {
-  return jwt.sign({ userId: user._id }, jtwSecret);
+  return jwt.sign({ userId: user.id }, jtwSecret);
 }
 
+/**
+ * @description this function validates the lenght of password
+ * @param value password passed as string
+ */
 function validatePassword(value: string) {
   if (value.length <= 8) {
     throw new PasswordTooShortError();
   }
 }
 
+/**
+ * @description get hashed value from a string password
+ * @param value takes in a password
+ */
 function getHashedPassword(value: string) {
   return bcrypt.hash(value, 10);
 }
 
+/**
+ * Auth resolver class
+ */
 @Resolver('AuthPayload')
 export class AuthResolvers {
   constructor(
@@ -67,9 +85,9 @@ export class AuthResolvers {
       throw new MissingDataError();
     }
 
-    const userExists = ctx.db.exists.User({username: args.username});
+    const userExists = await ctx.db.exists.User({username: args.username});
     if (userExists) {
-      // throw new UserUsernameExistsError();
+      throw new UserUsernameExistsError();
     }
 
     const password = await bcrypt.hash(args.password, 10);
@@ -113,6 +131,6 @@ export class AuthResolvers {
    */
   @ResolveProperty('user')
   async user({ user: { id } }, args, ctx: Context, info): Promise<User> {
-    return ctx.db.query.user({ where: { id } }, info);
+    return await ctx.db.query.user({ where: { id } }, info);
   }
 }
