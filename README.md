@@ -1,10 +1,12 @@
-# NestJS - Prisma - Apollo 2
+# NestJS - Prisma - GraphQL- Apollo 2
 
 * For using Prisma you should signup to https://app.prisma.io/ and deploy your server on it and the replace the end point in .env file
 
 ## Description
 
-Motivation to use NestJS
+### Motivation to use NestJS
+
+* Still in Progress
 
 ## Installation
 
