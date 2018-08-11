@@ -1,8 +1,10 @@
-# graphql-boilerplate-server
+# NestJS - Prisma - Apollo 2
+
+* For using Prisma you should signup to https://app.prisma.io/ and deploy your server on it and the replace the end point in .env file
 
 ## Description
 
-graphql boilerplate server with Prismagraphql
+Motivation to use NestJS
 
 ## Installation
 
@@ -21,18 +23,5 @@ $ npm run start:dev
 
 # production mode
 npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
