@@ -45,13 +45,6 @@ export class AppModule {
     const server = new ApolloServer({
       schema,
       playground: true,
-      context: req => ({
-        ...req,
-         prisma: new Prisma({
-         typeDefs: 'src/generated/prisma.graphql',
-         endpoint: process.env.PRISMA_URL,
-        }),
-      }),
     });
     server.applyMiddleware({ app });
     server.installSubscriptionHandlers(httpServer);
