@@ -1,12 +1,34 @@
 # NestJS - Prisma - Apollo 2
 
-### Using Prisma
+### Prisma
 
 * For using Prisma as an end point you should signup to [prisma](https://app.prisma.io/) and deploy your server. If you want to read more about deploying (check out the prisma [docs](https://www.prisma.io/docs/reference/cli-command-reference/database-service/prisma-deploy-kee1iedaov/))
 ```
 PRISMA_URL="PRISMA_URL="https://eu1.prisma.sh/your-workspace/yourendpoint/dev"
 PORT=3000
+```
+Here is the example of a .graphqlconfig.yml file that specifies that:
 
+the Prisma GraphQL schema should be stored in a file called generated/prisma.graphql
+the corresponding TypeScript type definitions should be written to a file called generated/prisma.ts
+
+Your .graphqlconfig.yml should have the below code:
+
+```
+projects:
+  app:
+    schemaPath: src/schema.graphql
+    extensions:
+      endpoints:
+        default: http://localhost:3000
+  prisma:
+    schemaPath: src/generated/prisma.graphql
+    extensions:
+      prisma: database/prisma.yml
+      prepare-binding:
+        output: src/generated/prisma.ts
+        generator: prisma-ts
+        
 ```
 
 ## Description
