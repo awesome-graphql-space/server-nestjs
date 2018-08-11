@@ -4,6 +4,12 @@
 
 * For using Prisma you should signup to https://app.prisma.io/ and deploy your server on it and the replace the end point in .env file
 
+```
+PRISMA_URL="PRISMA_URL="https://eu1.prisma.sh/your-workspace/yourendpoint/dev"
+PORT=3000
+
+```
+
 ## Description
 
 ### Motivation to use NestJS
