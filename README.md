@@ -9,10 +9,10 @@ PORT=3000
 ```
 Here is the example of a .graphqlconfig.yml file that specifies that:
 
-the Prisma GraphQL schema should be stored in a file called generated/prisma.graphql
-the corresponding TypeScript type definitions should be written to a file called generated/prisma.ts
+* Prisma GraphQL schema should be stored in a file called generated/prisma.graphql
+* Also the corresponding TypeScript type definitions should be written to a file called generated/prisma.ts
 
-Your .graphqlconfig.yml should have the below code:
+.graphqlconfig.yml should have the below code to generate prisma.ts file:
 
 ```
 projects:
