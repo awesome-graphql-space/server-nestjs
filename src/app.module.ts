@@ -47,7 +47,6 @@ export class AppModule {
 
     // Same as nestjs docs - graphql guide
     const typeDefs = importSchema(path.resolve('src/schema.graphql'));
-    // const typeDefs = this.graphQLFactory.mergeTypesByPaths('./schema/**/*.graphql');
     const schema = this.graphQLFactory.createSchema({ typeDefs });
     const server = new ApolloServer({
       schema,
