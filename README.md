@@ -2,8 +2,7 @@
 
 ### Using Prisma
 
-* For using Prisma you should signup to https://app.prisma.io/ and deploy your server on it and the replace the end point in .env file
-
+* For using Prisma as an end point you should signup to [prisma](https://app.prisma.io/) and deploy your server. If you want to read more about deploying (check out the prisma [docs](https://www.prisma.io/docs/reference/cli-command-reference/database-service/prisma-deploy-kee1iedaov/))
 ```
 PRISMA_URL="PRISMA_URL="https://eu1.prisma.sh/your-workspace/yourendpoint/dev"
 PORT=3000
