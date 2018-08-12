@@ -76,3 +76,13 @@ $ npm run start:dev
 npm run start:prod
 ```
 
+## Endpoints
+
+```bash
+# nestjs rest endpoint 
+localhost:3000
+
+# graphql and playground endpoint 
+localhost:3000/graphql
+```
+
