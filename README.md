@@ -5,7 +5,7 @@
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="220" alt="Nest Logo" /></a>
   <a href="http://tinypic.com?ref=2istvfk" target="_blank"><img width="220" src="http://i68.tinypic.com/2istvfk.png" border="0" alt="Prisma Logo"></a>
-  <a href="http://tinypic.com?ref=ojmu13" target="_blank"><img width="220" height="150" src="http://i64.tinypic.com/ojmu13.png" border="0" alt="Apollo Logo"></a>
+  <a href="http://tinypic.com?ref=ojmu13" target="_blank"><img width="190" height="120" src="http://i64.tinypic.com/ojmu13.png" border="0" alt="Apollo Logo"></a>
 </p>
 
 <div align="center"><strong>Bootstrap your Nestjs Prisma app within seconds</strong></div>
