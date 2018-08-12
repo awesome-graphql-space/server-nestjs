@@ -98,4 +98,13 @@ localhost:3000
 # graphql and playground endpoint 
 localhost:3000/graphql
 ```
+Deploying server on now.sh
+
+* Below is the server endpoint deployed on now
+
+```
+https://graphql-boilerplate-server-ykmuuaszoe.now.sh/graphql
+
+```
+
 
