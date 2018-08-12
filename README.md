@@ -9,7 +9,7 @@
 </p>
 
 <div align="center"><strong>Bootstrap your Nestjs Prisma app within seconds</strong></div>
-<div align="center"></div>
+<div align="center">Comes with prisma api code completion, making writing prisma db queries fun doing</div>
 
 <br />
 
@@ -61,6 +61,19 @@ projects:
 
 ```bash
 $ npm install
+```
+
+## Setting up prisma
+
+```bash
+# install prisma cli
+$ npm i prisma -g
+
+# login to prisma cloud
+$ prisma login
+
+# deploy prisma database
+₦ prisma deploy
 ```
 
 ## Running the app
