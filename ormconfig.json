@@ -1,0 +1,22 @@
+{
+   "type": "mysql",
+   "host": "localhost",
+   "port": 3306,
+   "username": "root",
+   "password": "2313", 
+   "database": "tweet",
+   "synchronize": false,
+   "logging": true,
+   "entities": [
+    "src/**/**.entity{.ts,.js}"
+   ],
+   "migrations": [
+      "migration/**/*.ts"
+   ],
+  
+   "cli": {
+     
+      "migrationsDir": "migration"
+      
+   }
+}

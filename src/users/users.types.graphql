@@ -1,0 +1,7 @@
+type User {
+  id: ID! @unique
+  password: String!
+  username: String! @unique
+  displayName: String!
+  tweets: [Tweet!]!
+}
