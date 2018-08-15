@@ -55,7 +55,7 @@ export class TweetsResolvers {
    */
   @Query()
   async tweets(obj, args: any, ctx: Context, info) {
-    return await ctx.db.query.tweets({});
+    return await ctx.db.query.tweets({orderBy: 'createdAt_DESC'}, info);
   }
 
   /**
@@ -75,7 +75,7 @@ export class TweetsResolvers {
           id: userId,
         },
       },
-    });
+    }, info);
   }
   /*
   @Subscription()
