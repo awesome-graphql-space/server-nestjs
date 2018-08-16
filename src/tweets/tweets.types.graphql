@@ -1,9 +1,0 @@
-
-type Tweet {
-  id: ID! @unique
-  text: String!
-  upload: String
-  slug: String @unique
-  views: Int
-  author: User!
-}

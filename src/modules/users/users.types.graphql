@@ -1,0 +1,41 @@
+type Query {
+  allUsers: [User]
+  user(userId: Int!): User
+}
+
+type Mutation {
+  loginUser(username: String, password: String): User
+
+  signUpUser(
+  password: String!
+  username: String! @unique
+  displayName: String!
+  email:String
+  ): User
+
+  changeUserPass(
+   userId: ID! @unique
+  password: String!
+  oldPassword: String! 
+  ): User
+
+  deleteUser(userId: Int!): User
+}
+
+type Subscription {
+  userCreated: User
+  userDeleted: User
+  userUpdated: User
+}
+
+
+
+type User {
+  userId: ID
+  email:String
+  password: String!
+  username: String
+  displayName: String!
+  tweets: [Tweet]
+  token:String
+}

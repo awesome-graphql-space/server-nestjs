@@ -1,0 +1,21 @@
+type Query {
+  allTweets: [Tweet]
+  signedInUsersTweets(userId: Int): Tweet
+}
+
+type Mutation {
+  postTweet(text: String!, upload: String, slug: String, userId: ID): Tweet
+}
+
+type Subscription {
+  tweetCreated: Tweet
+}
+
+type Tweet {
+  tweetId: ID! @unique
+  text: String!
+  upload: String
+  slug: String
+  views: Int
+  user: User
+}

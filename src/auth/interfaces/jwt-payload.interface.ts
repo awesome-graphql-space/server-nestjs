@@ -1,4 +1,4 @@
-import { User } from '../../users/interfaces';
+import { User } from './../../modules/users/users.entity';
 
 export interface JwtPayload {
   email: string;

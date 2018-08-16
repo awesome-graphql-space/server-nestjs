@@ -1,7 +1,7 @@
+import { UserExceptions } from './../../modules/users/exceptions/user.exceptions';
+import { USER_EXCEPTIONS } from './../errors/nest-errors';
 import * as jwt from 'jsonwebtoken';
-import { createError } from 'apollo-errors';
 import { Prisma } from '../../generated/prisma';
-
 // Prisma context interface for better code completeion
 export interface Context {
   db: Prisma;
@@ -29,7 +29,7 @@ export function getUserId(ctx: any): string {
     return userId;
   }
 
-  throw new Error('Not authourized');
+  throw new UserExceptions("Not Authorized");
 
 }
 
@@ -44,6 +44,6 @@ export function getUser(ctx: any): Promise<any> {
 /**
  * Simple apollo error for auth issues
  */
-export const AuthError = createError('AuthError', {
+/* export const AuthError = createError('AuthError', {
   message: 'Not authourized.',
-});
+}); */

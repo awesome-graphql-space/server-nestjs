@@ -1,13 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-
+import { ApplicationModule } from './app.module';
+import * as cors from 'cors';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const appModule = app.get(AppModule);
+  const app = await NestFactory.create(ApplicationModule);
+  app.use(cors());
+await app.listen(3000);
+ 
 
-  const httpServer = app.getHttpServer();
-  appModule.configureGraphQL(app, httpServer);
-
-  await app.listen(3000);
 }
 bootstrap();

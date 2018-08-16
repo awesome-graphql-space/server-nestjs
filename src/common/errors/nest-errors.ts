@@ -13,4 +13,5 @@ export const USER_EXCEPTIONS = {
   UserDeletedError: `User has been deleted.`,
   UserEmailUnconfirmedError: `Users email has not been confirmed yet.`,
   InvalidOldPasswordError: `Invalid old password.`,
+  WrongPassword:`Password is wrong`
 };
