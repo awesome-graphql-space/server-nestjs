@@ -8,7 +8,8 @@
   <a href="http://tinypic.com?ref=ojmu13" target="_blank"><img width="190" height="120" src="http://i64.tinypic.com/ojmu13.png" border="0" alt="Apollo Logo"></a>
 </p>
 
-<div align="center"><strong>Bootstrap your Nestjs Prisma app within seconds</strong></div>
+<div align="center"><strong>An example of Using Nestjs with <a href="https://www.prisma.io/blog/introducing-graphql-playground-f1e0a018f05d/" target="_blank">GraphQL Playground</a>
+A powerful GraphQL IDE for better development workflows. </strong></div>
 <div align="center">Comes with prisma api code completion, subscriptions , nest auth , jwt  fun doing</div>
 
 <br />
