@@ -104,7 +104,11 @@ async deleteOne(tweetId: number) {
 private buildTweetRO(user: User,tweet:Tweet) {
     const tweetRO = {
       user: user,
-      tweet: tweet,
+      text: tweet.text,
+      upload: tweet.upload,
+      views:tweet.views,
+      slug: tweet.slug,
+      tweetId:tweet.tweetId,
     };
 
     return { tweet: tweetRO };

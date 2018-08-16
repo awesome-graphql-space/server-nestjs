@@ -189,8 +189,13 @@ async deleteOne(userId: number) {
  */
 private async buildUserRO(user: User) {
     const userRO = {
-      user: user,
-      token: await this.generateToken(user),
+      userId: user.userId,
+  displayName: user.displayName,
+  password: user.password,
+  email:user.email,
+  username: user.username,
+  token:await this.generateToken(user),
+     
     };
 
     return { user: userRO };

@@ -47,7 +47,7 @@ export class UsersResolvers {
   @Mutation("loginUser")
   async login(obj, args: LoginUserDto, context, info) {
     const _user = await this.usersService.loginUser(args);
-    return _user;
+    return _user.user;
   }
 
   @Mutation("changeUserPass")

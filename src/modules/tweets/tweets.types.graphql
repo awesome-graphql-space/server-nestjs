@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-  postTweet(text: String!, upload: String, slug: String, userId: ID): Tweet
+  postTweet(text: String!, upload: String, slug: String, userId: Int): Tweet
 }
 
 type Subscription {
@@ -12,8 +12,8 @@ type Subscription {
 }
 
 type Tweet {
-  tweetId: ID! @unique
-  text: String!
+  tweetId: Int
+  text: String
   upload: String
   slug: String
   views: Int

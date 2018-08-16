@@ -1,12 +1,12 @@
 import { User } from './../users.entity';
 export interface UserData {
-  userId?: string;
+  userId?: number;
   displayName?: string;
   password?: string;
   email?:string;
   username?: string;
-  token:string;
-  user:User
+  token?:string;
+
 }
 /**
  *User data return object

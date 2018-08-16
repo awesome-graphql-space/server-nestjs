@@ -11,8 +11,9 @@ export interface TweetData {
   upload?: string;
   slug?: string;
   userId?: number;
-  tweet:Tweet;
-  user:User;
+  views?:number;
+  tweetId:number;
+  user?:User;
 }
 
 export interface TweetRO{

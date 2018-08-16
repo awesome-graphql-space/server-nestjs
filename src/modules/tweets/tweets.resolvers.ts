@@ -1,4 +1,4 @@
-import { TweetRO } from './interface/tweet.interface';
+import { TweetRO, TweetData } from './interface/tweet.interface';
 import { CreateTweetDto } from './dto/create-tweet.dto';
 import { Tweet } from './tweets.entity';
 /**
@@ -34,10 +34,10 @@ export class TweetsResolvers {
    */
   @Mutation("postTweet")
   @UseGuards(AuthGuard('bearer'))
-    async post(obj, args: CreateTweetDto, context, info): Promise<TweetRO> {
+    async post(obj, args: CreateTweetDto, context, info): Promise<TweetData> {
       const createdTweet = await this.tweetService.createTweet(args);
       pubsub.publish("tweetCreated", { tweetCreated: createdTweet });
-      return createdTweet;
+      return createdTweet.tweet;
   }
   /**
    * @description tweet query
