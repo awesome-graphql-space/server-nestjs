@@ -1,4 +1,4 @@
-<h1 align="center"><strong>NestJS - Prisma - Apollo 2</strong></h1>
+<h1 align="center"><strong>NestJS - TypeORM -MySQL -Graphiql -Prisma/graphql-playground - Subscriptions</strong></h1>
 
 <br />
 
@@ -9,38 +9,55 @@
 </p>
 
 <div align="center"><strong>Bootstrap your Nestjs Prisma app within seconds</strong></div>
-<div align="center">Comes with prisma api code completion, making writing prisma db queries fun doing</div>
+<div align="center">Comes with prisma api code completion, subscriptions , nest auth , jwt  fun doing</div>
 
 <br />
 
-### Prisma
+### MYSQL DB Settings
 
-* For using Prisma as an end point you should signup to [prisma](https://app.prisma.io/) and deploy your server. If you want to read more about deploying (check out the prisma [docs](https://www.prisma.io/docs/reference/cli-command-reference/database-service/prisma-deploy-kee1iedaov/))
+* For using Mysql Database 
 ```
-PRISMA_URL="PRISMA_URL="https://eu1.prisma.sh/your-workspace/yourendpoint/dev"
-PORT=3000
+#clone repo
+git clone https://github.com/nelsonBlack/server-nestjs.git
+
+#change to projects dir
+cd server-nestjs
+
+#install node module packages
+npm install
+
 ```
-Here is the example of a .graphqlconfig.yml file that specifies that:
+Configure Database connection , in this case mySql and create an empty database in your mysql server
+Dont worry about tables , we will create them using typeORM Migrations
 
-* Prisma GraphQL schema should be stored in a file called generated/prisma.graphql
-* Also the corresponding TypeScript type definitions should be written to a file called generated/prisma.ts
+* Edit ormconfig.json file  found at /server-nestjs/ormconfig.json
 
-.graphqlconfig.yml should have the below code to generate prisma.ts file:
+
+ormconfig.json should have the below code to generate prisma.ts file:
 
 ```
-projects:
-  app:
-    schemaPath: src/schema.graphql
-    extensions:
-      endpoints:
-        default: http://localhost:3000
-  prisma:
-    schemaPath: src/generated/prisma.graphql
-    extensions:
-      prisma: database/prisma.yml
-      prepare-binding:
-        output: src/generated/prisma.ts
-        generator: prisma-ts
+{
+   "type": "mysql", 
+   "host": "localhost",
+   "port": 3306,
+   "username": "root",  //mysql server username
+   "password": "2313", //mysql server password
+   "database": "tweet", //database name
+   "synchronize": false, //
+   "logging": true,
+   "entities": [
+    "src/**/**.entity{.ts,.js}"
+   ],
+   "migrations": [
+      "migration/**/*.ts"
+   ],
+  
+   "cli": {
+     
+      "migrationsDir": "migration" //where migrations will be stored 
+      
+   }
+}
         
 ```
 
@@ -50,30 +67,27 @@ projects:
 
 * Nest is a framework for building efficient, scalable Node.js server-side applications. It uses progressive JavaScript, is built with TypeScript (preserves compatibility with pure JavaScript) and combines elements of OOP (Object Oriented Programming), FP (Functional Programming), and FRP (Functional Reactive Programming). NestJS reduces the process involved in setting up a nodejs server.
 
-* We already have the GraphQLModule in NestJS that is nothing more than a wrapper around the Apollo server. We don't reinvent the wheel but provide a ready to use a module instead, that brings a clean way to play with the GraphQL and Nest together.
-
-#### NestJS Framework is not compatible with Apollo Server 2 as of now, so this was major win for us:)
- 
- Thanks to [issue](https://github.com/nestjs/graphql/issues/32) that helped us to build the boilerplate the right way :)
 
 
-## Installation
+
+## Installation , Make sure you have done the MYSQL DB Settings step by edditing ormconfig.json file and created empty db and set credentials in ormconfig.json
 
 ```bash
 $ npm install
 ```
 
-## Setting up prisma
+## Setting up database 
 
 ```bash
-# install prisma cli
-$ npm i prisma -g
+# create migrations from the already defined entites 
+$ yarn migration:generate --name firstmigration
 
-# login to prisma cloud
-$ prisma login
+# run the created migrations to create db tables 
+$ yarn migration:run
 
-# deploy prisma database
-₦ prisma deploy
+# run the application 
+$ yarn migration:run
+
 ```
 
 ## Running the app
@@ -92,18 +106,17 @@ npm run start:prod
 ## Endpoints
 
 ```bash
-# nestjs rest endpoint 
-localhost:3000
+# nestjs graphql playground endpoint 
+http://localhost:3000/graphiql
 
-# graphql and playground endpoint 
-localhost:3000/graphql
-```
-Deploying server on now.sh
-
-* Below is the server endpoint deployed on now
 
 ```
-https://graphql-boilerplate-server-ykmuuaszoe.now.sh/graphql
+
+
+* Credits
+
+```
+Initial project was cloned from https://github.com/manjula91/server-nestjs then added mysql, changed folder structure , and files added etc  
 
 ```
 
