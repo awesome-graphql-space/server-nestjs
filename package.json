@@ -3,6 +3,17 @@
   "version": "0.0.1",
   "description": "graphql boilerplate server",
   "author": "Rex Raphael",
+  "keywords": [
+    "nestjs",
+    "react",
+    "reactjs",
+    "prisma",
+    "prisma-graphql",
+    "apollo-server",
+    "prisma-graphql",
+    "apollo-server-2",
+    "graphql"
+  ],
   "license": "MIT",
   "scripts": {
     "format": "prettier --write \"**/*.ts\"",
