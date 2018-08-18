@@ -1,0 +1,7 @@
+version: "3"
+services:
+  uniserver:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: nestjs-demo:latest
