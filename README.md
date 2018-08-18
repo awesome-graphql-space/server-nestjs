@@ -105,6 +105,7 @@ https://graphql-boilerplate-server-ykmuuaszoe.now.sh/graphql
 
 ```
 
+<<<<<<< HEAD
 # Roadmap
 + [x] Authentication (JWT)
 + [O] Authentication (Passport)
@@ -116,4 +117,17 @@ https://graphql-boilerplate-server-ykmuuaszoe.now.sh/graphql
 + [O] File upload via rest
 + [O] File upload via graphql
 + [O] Redis support
+=======
+#### Roadmap
++ Authentication (JWT)
++ Authentication (Passport)
++ Authentication (Session)
++ Realtime subscription
++ Prisma Graphql
++ Apollo Server 2
++ Realtime subscription
++ File upload via rest
++ File upload via graphql
++ Redis support
+>>>>>>> 18f40a309884444ce16939d4451c6fa6131937c6
 
