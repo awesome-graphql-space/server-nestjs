@@ -113,7 +113,6 @@ https://graphql-boilerplate-server-ykmuuaszoe.now.sh/graphql
 + Prisma Graphql
 + Apollo Server 2
 + Realtime subscription
-+ Prisma Graphql
 + File upload via rest
 + File upload via graphql
 + Redis support
