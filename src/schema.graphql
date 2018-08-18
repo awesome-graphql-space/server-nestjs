@@ -1,6 +1,7 @@
 #import User from './generated/prisma.graphql'
 #import Tweet from './generated/prisma.graphql'
 #import TweetSubscriptionPayload from './generated/prisma.graphql'
+#import TweetSubscriptionWhereInput from './generated/prisma.graphql'
 
 type Query {
   tweets: [Tweet!]
@@ -17,9 +18,14 @@ type Mutation {
 }
 
 type Subscription {
-  tweetSubscription: TweetSubscriptionPayload!
+  tweetSubscription: PackOfLies
+
 }
 
+type PackOfLies{
+  lies: String
+  fakeness: String
+}
 type AuthPayload {
   token: String!
   user: User!

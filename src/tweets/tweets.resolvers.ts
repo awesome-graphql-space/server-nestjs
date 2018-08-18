@@ -8,9 +8,12 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql';
+import { PubSub } from 'apollo-server';
 import { Context, getUserId } from '../common/utils';
 import { TweetsService } from './tweets.service';
 import { NotAuthenticatedError } from '../common/apollo-errors';
+
+const pubsub = new PubSub();
 
 /**
  * Tweet resolver
@@ -43,9 +46,10 @@ export class TweetsResolvers {
         upload,
       },
     });
-
+    pubsub.publish('DEAD_FISH', {lies: 'too many', fakeness: 'high'});
     return tweet;
   }
+
   /**
    * @description tweet query
    * @param obj this contains data of the current apollo type
@@ -77,10 +81,16 @@ export class TweetsResolvers {
       },
     }, info);
   }
-  /*
+
+  /**
+   * @param obj Subscription support for tweets
+   * @param args
+   * @param ctx takes in the apollo and prisma context
+   * @param info
+   */
   @Subscription()
-  tweetSubscription(obj, args: any, ctx: Context, info){
-    return ctx.db.subscription.tweet({});
+  async tweetSubscription(obj, args: any, ctx: Context, info){
+    ///const prismaRes = await ctx.db.subscription.tweet({}, info);
+    return await pubsub.asyncIterator('DEAD_FISH');
   }
-  */
 }
