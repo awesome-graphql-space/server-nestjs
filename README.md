@@ -101,7 +101,7 @@ Deploying server on now.sh
 * Below is the server endpoint deployed on now
 
 ```
-https://graphql-boilerplate-server-wqrtiyktjn.now.sh
+https://graphql-boilerplate-server-wqrtiyktjn.now.sh/graphql
 
 ```
 
