@@ -1,901 +1,98 @@
-import { Prisma as BasePrisma, BasePrismaOptions } from 'prisma-binding'
-import { GraphQLResolveInfo } from 'graphql'
+import { GraphQLResolveInfo, GraphQLSchema } from 'graphql'
+import { IResolvers } from 'graphql-tools/dist/Interfaces'
+import { makePrismaBindingClass, BasePrismaOptions, Options } from 'prisma-lib'
 
-export const typeDefs = `
-type AggregateTweet {
-  count: Int!
+export interface Exists {
+  user: (where?: UserWhereInput) => Promise<boolean>
+  tweet: (where?: TweetWhereInput) => Promise<boolean>
 }
 
-type AggregateUser {
-  count: Int!
+export interface Node { }
+
+export interface Prisma {
+  $exists: Exists;
+  $request: <T = any>(query: string, variables?: { [key: string]: any }) => Promise<T>;
+  $delegate: Delegate;
+  $getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
+
+  /**
+   * Queries
+  */
+
+  users: (args?: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }) => Promise<Array<UserNode>>;
+  tweets: (args?: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }) => Promise<Array<TweetNode>>;
+  user: (where: UserWhereUniqueInput) => User;
+  tweet: (where: TweetWhereUniqueInput) => Tweet;
+  usersConnection: (args?: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }) => UserConnection;
+  tweetsConnection: (args?: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }) => TweetConnection;
+  node: (args: { id: ID_Output }) => Node;
+
+  /**
+   * Mutations
+  */
+
+  createUser: (data: UserCreateInput) => User;
+  createTweet: (data: TweetCreateInput) => Tweet;
+  updateUser: (args: { data: UserUpdateInput, where: UserWhereUniqueInput }) => User;
+  updateTweet: (args: { data: TweetUpdateInput, where: TweetWhereUniqueInput }) => Tweet;
+  deleteUser: (where: UserWhereUniqueInput) => User;
+  deleteTweet: (where: TweetWhereUniqueInput) => Tweet;
+  upsertUser: (args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }) => User;
+  upsertTweet: (args: { where: TweetWhereUniqueInput, create: TweetCreateInput, update: TweetUpdateInput }) => Tweet;
+  updateManyUsers: (args: { data: UserUpdateInput, where?: UserWhereInput }) => BatchPayload;
+  updateManyTweets: (args: { data: TweetUpdateInput, where?: TweetWhereInput }) => BatchPayload;
+  deleteManyUsers: (where?: UserWhereInput) => BatchPayload;
+  deleteManyTweets: (where?: TweetWhereInput) => BatchPayload;
 }
 
-type BatchPayload {
-  """
-  The number of nodes that have been affected by the Batch operation.
-  """
-  count: Long!
+export interface Delegate {
+  (
+    operation: 'query' | 'mutation',
+    fieldName: string,
+    args: {
+      [key: string]: any
+    },
+    infoOrQuery?: GraphQLResolveInfo,
+    options?: Options,
+  ): Promise<any>
+  query: DelegateQuery
+  mutation: DelegateMutation
 }
 
-"""
-The 'Long' scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-"""
-scalar Long
-
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
+export interface DelegateQuery {
+  users: <T = Promise<Array<UserNode>>>(args?: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int, info?: GraphQLResolveInfo, options?: Options }) => T;
+  tweets: <T = Promise<Array<TweetNode>>>(args?: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int, info?: GraphQLResolveInfo, options?: Options }) => T;
+  user: <T = Promise<Partial<UserNode | null>>>(where: UserWhereUniqueInput) => T;
+  tweet: <T = Promise<Partial<TweetNode | null>>>(where: TweetWhereUniqueInput) => T;
+  usersConnection: <T = Promise<Partial<UserConnectionNode>>>(args?: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int, info?: GraphQLResolveInfo, options?: Options }) => T;
+  tweetsConnection: <T = Promise<Partial<TweetConnectionNode>>>(args?: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int, info?: GraphQLResolveInfo, options?: Options }) => T;
+  node: <T = Promise<Partial<NodeNode | null>>>(args: { id: ID_Output, info?: GraphQLResolveInfo, options?: Options }) => T
 }
 
-"""
-An object with an ID
-"""
-interface Node {
-  """
-  The id of the object.
-  """
-  id: ID!
+export interface DelegateMutation {
+  createUser: <T = Promise<Partial<UserNode>>>(where: UserCreateInput) => T;
+  createTweet: <T = Promise<Partial<TweetNode>>>(where: TweetCreateInput) => T;
+  updateUser: <T = Promise<Partial<UserNode | null>>>(args: { data: UserUpdateInput, where: UserWhereUniqueInput, info?: GraphQLResolveInfo, options?: Options }) => T;
+  updateTweet: <T = Promise<Partial<TweetNode | null>>>(args: { data: TweetUpdateInput, where: TweetWhereUniqueInput, info?: GraphQLResolveInfo, options?: Options }) => T;
+  deleteUser: <T = Promise<Partial<UserNode | null>>>(where: UserWhereUniqueInput) => T;
+  deleteTweet: <T = Promise<Partial<TweetNode | null>>>(where: TweetWhereUniqueInput) => T;
+  upsertUser: <T = Promise<Partial<UserNode>>>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput, info?: GraphQLResolveInfo, options?: Options }) => T;
+  upsertTweet: <T = Promise<Partial<TweetNode>>>(args: { where: TweetWhereUniqueInput, create: TweetCreateInput, update: TweetUpdateInput, info?: GraphQLResolveInfo, options?: Options }) => T;
+  updateManyUsers: <T = Promise<Partial<BatchPayloadNode>>>(args: { data: UserUpdateInput, where?: UserWhereInput, info?: GraphQLResolveInfo, options?: Options }) => T;
+  updateManyTweets: <T = Promise<Partial<BatchPayloadNode>>>(args: { data: TweetUpdateInput, where?: TweetWhereInput, info?: GraphQLResolveInfo, options?: Options }) => T;
+  deleteManyUsers: <T = Promise<Partial<BatchPayloadNode>>>(where?: UserWhereInput) => T;
+  deleteManyTweets: <T = Promise<Partial<BatchPayloadNode>>>(where?: TweetWhereInput) => T;
 }
 
-"""
-Information about pagination in a connection.
-"""
-type PageInfo {
-  """
-  When paginating forwards, are there more items?
-  """
-  hasNextPage: Boolean!
-  """
-  When paginating backwards, are there more items?
-  """
-  hasPreviousPage: Boolean!
-  """
-  When paginating backwards, the cursor to continue.
-  """
-  startCursor: String
-  """
-  When paginating forwards, the cursor to continue.
-  """
-  endCursor: String
+export interface BindingConstructor<T> {
+  new(options?: BasePrismaOptions): T
 }
 
-type Tweet implements Node {
-  id: ID!
-  text: String!
-  upload: String
-  slug: String
-  views: Int
-  author(where: UserWhereInput): User!
-}
+/**
+ * Types
+*/
 
-"""
-A connection to a list of items.
-"""
-type TweetConnection {
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-  """
-  A list of edges.
-  """
-  edges: [TweetEdge]!
-  aggregate: AggregateTweet!
-}
-
-input TweetCreateInput {
-  text: String!
-  upload: String
-  slug: String
-  views: Int
-  author: UserCreateOneWithoutTweetsInput!
-}
-
-input TweetCreateManyWithoutAuthorInput {
-  create: [TweetCreateWithoutAuthorInput!]
-  connect: [TweetWhereUniqueInput!]
-}
-
-input TweetCreateWithoutAuthorInput {
-  text: String!
-  upload: String
-  slug: String
-  views: Int
-}
-
-"""
-An edge in a connection.
-"""
-type TweetEdge {
-  """
-  The item at the end of the edge.
-  """
-  node: Tweet!
-  """
-  A cursor for use in pagination.
-  """
-  cursor: String!
-}
-
-enum TweetOrderByInput {
-  id_ASC
-  id_DESC
-  text_ASC
-  text_DESC
-  upload_ASC
-  upload_DESC
-  slug_ASC
-  slug_DESC
-  views_ASC
-  views_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type TweetPreviousValues {
-  id: ID!
-  text: String!
-  upload: String
-  slug: String
-  views: Int
-}
-
-type TweetSubscriptionPayload {
-  mutation: MutationType!
-  node: Tweet
-  updatedFields: [String!]
-  previousValues: TweetPreviousValues
-}
-
-input TweetSubscriptionWhereInput {
-  """
-  Logical AND on all given filters.
-  """
-  AND: [TweetSubscriptionWhereInput!]
-  """
-  Logical OR on all given filters.
-  """
-  OR: [TweetSubscriptionWhereInput!]
-  """
-  Logical NOT on all given filters combined by AND.
-  """
-  NOT: [TweetSubscriptionWhereInput!]
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: TweetWhereInput
-}
-
-input TweetUpdateInput {
-  text: String
-  upload: String
-  slug: String
-  views: Int
-  author: UserUpdateOneWithoutTweetsInput
-}
-
-input TweetUpdateManyWithoutAuthorInput {
-  create: [TweetCreateWithoutAuthorInput!]
-  connect: [TweetWhereUniqueInput!]
-  disconnect: [TweetWhereUniqueInput!]
-  delete: [TweetWhereUniqueInput!]
-  update: [TweetUpdateWithWhereUniqueWithoutAuthorInput!]
-  upsert: [TweetUpsertWithWhereUniqueWithoutAuthorInput!]
-}
-
-input TweetUpdateWithoutAuthorDataInput {
-  text: String
-  upload: String
-  slug: String
-  views: Int
-}
-
-input TweetUpdateWithWhereUniqueWithoutAuthorInput {
-  where: TweetWhereUniqueInput!
-  data: TweetUpdateWithoutAuthorDataInput!
-}
-
-input TweetUpsertWithWhereUniqueWithoutAuthorInput {
-  where: TweetWhereUniqueInput!
-  update: TweetUpdateWithoutAuthorDataInput!
-  create: TweetCreateWithoutAuthorInput!
-}
-
-input TweetWhereInput {
-  """
-  Logical AND on all given filters.
-  """
-  AND: [TweetWhereInput!]
-  """
-  Logical OR on all given filters.
-  """
-  OR: [TweetWhereInput!]
-  """
-  Logical NOT on all given filters combined by AND.
-  """
-  NOT: [TweetWhereInput!]
-  id: ID
-  """
-  All values that are not equal to given value.
-  """
-  id_not: ID
-  """
-  All values that are contained in given list.
-  """
-  id_in: [ID!]
-  """
-  All values that are not contained in given list.
-  """
-  id_not_in: [ID!]
-  """
-  All values less than the given value.
-  """
-  id_lt: ID
-  """
-  All values less than or equal the given value.
-  """
-  id_lte: ID
-  """
-  All values greater than the given value.
-  """
-  id_gt: ID
-  """
-  All values greater than or equal the given value.
-  """
-  id_gte: ID
-  """
-  All values containing the given string.
-  """
-  id_contains: ID
-  """
-  All values not containing the given string.
-  """
-  id_not_contains: ID
-  """
-  All values starting with the given string.
-  """
-  id_starts_with: ID
-  """
-  All values not starting with the given string.
-  """
-  id_not_starts_with: ID
-  """
-  All values ending with the given string.
-  """
-  id_ends_with: ID
-  """
-  All values not ending with the given string.
-  """
-  id_not_ends_with: ID
-  text: String
-  """
-  All values that are not equal to given value.
-  """
-  text_not: String
-  """
-  All values that are contained in given list.
-  """
-  text_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  text_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  text_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  text_lte: String
-  """
-  All values greater than the given value.
-  """
-  text_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  text_gte: String
-  """
-  All values containing the given string.
-  """
-  text_contains: String
-  """
-  All values not containing the given string.
-  """
-  text_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  text_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  text_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  text_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  text_not_ends_with: String
-  upload: String
-  """
-  All values that are not equal to given value.
-  """
-  upload_not: String
-  """
-  All values that are contained in given list.
-  """
-  upload_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  upload_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  upload_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  upload_lte: String
-  """
-  All values greater than the given value.
-  """
-  upload_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  upload_gte: String
-  """
-  All values containing the given string.
-  """
-  upload_contains: String
-  """
-  All values not containing the given string.
-  """
-  upload_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  upload_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  upload_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  upload_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  upload_not_ends_with: String
-  slug: String
-  """
-  All values that are not equal to given value.
-  """
-  slug_not: String
-  """
-  All values that are contained in given list.
-  """
-  slug_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  slug_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  slug_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  slug_lte: String
-  """
-  All values greater than the given value.
-  """
-  slug_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  slug_gte: String
-  """
-  All values containing the given string.
-  """
-  slug_contains: String
-  """
-  All values not containing the given string.
-  """
-  slug_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  slug_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  slug_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  slug_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  slug_not_ends_with: String
-  views: Int
-  """
-  All values that are not equal to given value.
-  """
-  views_not: Int
-  """
-  All values that are contained in given list.
-  """
-  views_in: [Int!]
-  """
-  All values that are not contained in given list.
-  """
-  views_not_in: [Int!]
-  """
-  All values less than the given value.
-  """
-  views_lt: Int
-  """
-  All values less than or equal the given value.
-  """
-  views_lte: Int
-  """
-  All values greater than the given value.
-  """
-  views_gt: Int
-  """
-  All values greater than or equal the given value.
-  """
-  views_gte: Int
-  author: UserWhereInput
-}
-
-input TweetWhereUniqueInput {
-  id: ID
-  slug: String
-}
-
-type User implements Node {
-  id: ID!
-  password: String!
-  username: String!
-  displayName: String!
-  tweets(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tweet!]
-}
-
-"""
-A connection to a list of items.
-"""
-type UserConnection {
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-  """
-  A list of edges.
-  """
-  edges: [UserEdge]!
-  aggregate: AggregateUser!
-}
-
-input UserCreateInput {
-  password: String!
-  username: String!
-  displayName: String!
-  tweets: TweetCreateManyWithoutAuthorInput
-}
-
-input UserCreateOneWithoutTweetsInput {
-  create: UserCreateWithoutTweetsInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutTweetsInput {
-  password: String!
-  username: String!
-  displayName: String!
-}
-
-"""
-An edge in a connection.
-"""
-type UserEdge {
-  """
-  The item at the end of the edge.
-  """
-  node: User!
-  """
-  A cursor for use in pagination.
-  """
-  cursor: String!
-}
-
-enum UserOrderByInput {
-  id_ASC
-  id_DESC
-  password_ASC
-  password_DESC
-  username_ASC
-  username_DESC
-  displayName_ASC
-  displayName_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type UserPreviousValues {
-  id: ID!
-  password: String!
-  username: String!
-  displayName: String!
-}
-
-type UserSubscriptionPayload {
-  mutation: MutationType!
-  node: User
-  updatedFields: [String!]
-  previousValues: UserPreviousValues
-}
-
-input UserSubscriptionWhereInput {
-  """
-  Logical AND on all given filters.
-  """
-  AND: [UserSubscriptionWhereInput!]
-  """
-  Logical OR on all given filters.
-  """
-  OR: [UserSubscriptionWhereInput!]
-  """
-  Logical NOT on all given filters combined by AND.
-  """
-  NOT: [UserSubscriptionWhereInput!]
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: UserWhereInput
-}
-
-input UserUpdateInput {
-  password: String
-  username: String
-  displayName: String
-  tweets: TweetUpdateManyWithoutAuthorInput
-}
-
-input UserUpdateOneWithoutTweetsInput {
-  create: UserCreateWithoutTweetsInput
-  connect: UserWhereUniqueInput
-  delete: Boolean
-  update: UserUpdateWithoutTweetsDataInput
-  upsert: UserUpsertWithoutTweetsInput
-}
-
-input UserUpdateWithoutTweetsDataInput {
-  password: String
-  username: String
-  displayName: String
-}
-
-input UserUpsertWithoutTweetsInput {
-  update: UserUpdateWithoutTweetsDataInput!
-  create: UserCreateWithoutTweetsInput!
-}
-
-input UserWhereInput {
-  """
-  Logical AND on all given filters.
-  """
-  AND: [UserWhereInput!]
-  """
-  Logical OR on all given filters.
-  """
-  OR: [UserWhereInput!]
-  """
-  Logical NOT on all given filters combined by AND.
-  """
-  NOT: [UserWhereInput!]
-  id: ID
-  """
-  All values that are not equal to given value.
-  """
-  id_not: ID
-  """
-  All values that are contained in given list.
-  """
-  id_in: [ID!]
-  """
-  All values that are not contained in given list.
-  """
-  id_not_in: [ID!]
-  """
-  All values less than the given value.
-  """
-  id_lt: ID
-  """
-  All values less than or equal the given value.
-  """
-  id_lte: ID
-  """
-  All values greater than the given value.
-  """
-  id_gt: ID
-  """
-  All values greater than or equal the given value.
-  """
-  id_gte: ID
-  """
-  All values containing the given string.
-  """
-  id_contains: ID
-  """
-  All values not containing the given string.
-  """
-  id_not_contains: ID
-  """
-  All values starting with the given string.
-  """
-  id_starts_with: ID
-  """
-  All values not starting with the given string.
-  """
-  id_not_starts_with: ID
-  """
-  All values ending with the given string.
-  """
-  id_ends_with: ID
-  """
-  All values not ending with the given string.
-  """
-  id_not_ends_with: ID
-  password: String
-  """
-  All values that are not equal to given value.
-  """
-  password_not: String
-  """
-  All values that are contained in given list.
-  """
-  password_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  password_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  password_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  password_lte: String
-  """
-  All values greater than the given value.
-  """
-  password_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  password_gte: String
-  """
-  All values containing the given string.
-  """
-  password_contains: String
-  """
-  All values not containing the given string.
-  """
-  password_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  password_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  password_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  password_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  password_not_ends_with: String
-  username: String
-  """
-  All values that are not equal to given value.
-  """
-  username_not: String
-  """
-  All values that are contained in given list.
-  """
-  username_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  username_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  username_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  username_lte: String
-  """
-  All values greater than the given value.
-  """
-  username_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  username_gte: String
-  """
-  All values containing the given string.
-  """
-  username_contains: String
-  """
-  All values not containing the given string.
-  """
-  username_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  username_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  username_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  username_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  username_not_ends_with: String
-  displayName: String
-  """
-  All values that are not equal to given value.
-  """
-  displayName_not: String
-  """
-  All values that are contained in given list.
-  """
-  displayName_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  displayName_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  displayName_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  displayName_lte: String
-  """
-  All values greater than the given value.
-  """
-  displayName_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  displayName_gte: String
-  """
-  All values containing the given string.
-  """
-  displayName_contains: String
-  """
-  All values not containing the given string.
-  """
-  displayName_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  displayName_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  displayName_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  displayName_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  displayName_not_ends_with: String
-  tweets_every: TweetWhereInput
-  tweets_some: TweetWhereInput
-  tweets_none: TweetWhereInput
-}
-
-input UserWhereUniqueInput {
-  id: ID
-  username: String
-}
-
-type Mutation {
-  createUser(data: UserCreateInput!): User!
-  createTweet(data: TweetCreateInput!): Tweet!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateTweet(data: TweetUpdateInput!, where: TweetWhereUniqueInput!): Tweet
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteTweet(where: TweetWhereUniqueInput!): Tweet
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertTweet(where: TweetWhereUniqueInput!, create: TweetCreateInput!, update: TweetUpdateInput!): Tweet!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  updateManyTweets(data: TweetUpdateInput!, where: TweetWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
-  deleteManyTweets(where: TweetWhereInput): BatchPayload!
-}
-
-type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  tweets(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tweet]!
-  user(where: UserWhereUniqueInput!): User
-  tweet(where: TweetWhereUniqueInput!): Tweet
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  tweetsConnection(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TweetConnection!
-  """
-  Fetches an object given its ID
-  """
-  node("""
-  The ID of an object
-  """
-  id: ID!): Node
-}
-
-type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  tweet(where: TweetSubscriptionWhereInput): TweetSubscriptionPayload
-}
-`
-
-export type UserOrderByInput = 
-  'id_ASC' |
+export type UserOrderByInput = 'id_ASC' |
   'id_DESC' |
   'password_ASC' |
   'password_DESC' |
@@ -908,8 +105,7 @@ export type UserOrderByInput =
   'createdAt_ASC' |
   'createdAt_DESC'
 
-export type TweetOrderByInput = 
-  'id_ASC' |
+export type TweetOrderByInput = 'id_ASC' |
   'id_DESC' |
   'text_ASC' |
   'text_DESC' |
@@ -924,8 +120,7 @@ export type TweetOrderByInput =
   'createdAt_ASC' |
   'createdAt_DESC'
 
-export type MutationType = 
-  'CREATED' |
+export type MutationType = 'CREATED' |
   'UPDATED' |
   'DELETED'
 
@@ -1200,11 +395,11 @@ export interface TweetSubscriptionWhereInput {
  * An object with an ID
 
  */
-export interface Node {
+export interface NodeNode {
   id: ID_Output
 }
 
-export interface TweetPreviousValues {
+export interface TweetPreviousValuesNode {
   id: ID_Output
   text: String
   upload?: String
@@ -1212,107 +407,202 @@ export interface TweetPreviousValues {
   views?: Int
 }
 
-export interface BatchPayload {
+export interface TweetPreviousValues extends Promise<TweetPreviousValuesNode> {
+  id: () => Promise<ID_Output>
+  text: () => Promise<String>
+  upload: () => Promise<String>
+  slug: () => Promise<String>
+  views: () => Promise<Int>
+}
+
+export interface BatchPayloadNode {
   count: Long
 }
 
-export interface User extends Node {
+export interface BatchPayload extends Promise<BatchPayloadNode> {
+  count: () => Promise<Long>
+}
+
+export interface UserNode extends Node {
   id: ID_Output
   password: String
   username: String
   displayName: String
-  tweets?: Tweet[]
+}
+
+export interface User extends Promise<UserNode>, Node {
+  id: () => Promise<ID_Output>
+  password: () => Promise<String>
+  username: () => Promise<String>
+  displayName: () => Promise<String>
+  tweets: (args?: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }) => Promise<Array<TweetNode>>
 }
 
 /*
  * Information about pagination in a connection.
 
  */
-export interface PageInfo {
+export interface PageInfoNode {
   hasNextPage: Boolean
   hasPreviousPage: Boolean
   startCursor?: String
   endCursor?: String
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType
-  node?: User
-  updatedFields?: String[]
-  previousValues?: UserPreviousValues
+/*
+ * Information about pagination in a connection.
+
+ */
+export interface PageInfo extends Promise<PageInfoNode> {
+  hasNextPage: () => Promise<Boolean>
+  hasPreviousPage: () => Promise<Boolean>
+  startCursor: () => Promise<String>
+  endCursor: () => Promise<String>
 }
 
-export interface AggregateTweet {
+export interface UserSubscriptionPayloadNode {
+  mutation: MutationType
+  updatedFields?: String[]
+}
+
+export interface UserSubscriptionPayload extends Promise<UserSubscriptionPayloadNode> {
+  mutation: () => Promise<MutationType>
+  node: () => User
+  updatedFields: () => Promise<String[]>
+  previousValues: () => UserPreviousValues
+}
+
+export interface AggregateTweetNode {
   count: Int
 }
 
-export interface UserPreviousValues {
+export interface AggregateTweet extends Promise<AggregateTweetNode> {
+  count: () => Promise<Int>
+}
+
+export interface UserPreviousValuesNode {
   id: ID_Output
   password: String
   username: String
   displayName: String
 }
 
+export interface UserPreviousValues extends Promise<UserPreviousValuesNode> {
+  id: () => Promise<ID_Output>
+  password: () => Promise<String>
+  username: () => Promise<String>
+  displayName: () => Promise<String>
+}
+
 /*
  * A connection to a list of items.
 
  */
-export interface UserConnection {
-  pageInfo: PageInfo
-  edges: UserEdge[]
-  aggregate: AggregateUser
+export interface UserConnectionNode {
+
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface UserConnection extends Promise<UserConnectionNode> {
+  pageInfo: () => PageInfo
+  edges: () => Promise<Array<UserEdgeNode>>
+  aggregate: () => AggregateUser
 }
 
 /*
  * An edge in a connection.
 
  */
-export interface TweetEdge {
-  node: Tweet
+export interface TweetEdgeNode {
   cursor: String
 }
 
-export interface Tweet extends Node {
+/*
+ * An edge in a connection.
+
+ */
+export interface TweetEdge extends Promise<TweetEdgeNode> {
+  node: () => Tweet
+  cursor: () => Promise<String>
+}
+
+export interface TweetNode extends Node {
   id: ID_Output
   text: String
   upload?: String
   slug?: String
   views?: Int
-  author: User
+}
+
+export interface Tweet extends Promise<TweetNode>, Node {
+  id: () => Promise<ID_Output>
+  text: () => Promise<String>
+  upload: () => Promise<String>
+  slug: () => Promise<String>
+  views: () => Promise<Int>
+  author: (args?: { where?: UserWhereInput }) => User
 }
 
 /*
  * A connection to a list of items.
 
  */
-export interface TweetConnection {
-  pageInfo: PageInfo
-  edges: TweetEdge[]
-  aggregate: AggregateTweet
+export interface TweetConnectionNode {
+
 }
 
-export interface TweetSubscriptionPayload {
+/*
+ * A connection to a list of items.
+
+ */
+export interface TweetConnection extends Promise<TweetConnectionNode> {
+  pageInfo: () => PageInfo
+  edges: () => Promise<Array<TweetEdgeNode>>
+  aggregate: () => AggregateTweet
+}
+
+export interface TweetSubscriptionPayloadNode {
   mutation: MutationType
-  node?: Tweet
   updatedFields?: String[]
-  previousValues?: TweetPreviousValues
+}
+
+export interface TweetSubscriptionPayload extends Promise<TweetSubscriptionPayloadNode> {
+  mutation: () => Promise<MutationType>
+  node: () => Tweet
+  updatedFields: () => Promise<String[]>
+  previousValues: () => TweetPreviousValues
 }
 
 /*
  * An edge in a connection.
 
  */
-export interface UserEdge {
-  node: User
+export interface UserEdgeNode {
   cursor: String
 }
 
-export interface AggregateUser {
+/*
+ * An edge in a connection.
+
+ */
+export interface UserEdge extends Promise<UserEdgeNode> {
+  node: () => User
+  cursor: () => Promise<String>
+}
+
+export interface AggregateUserNode {
   count: Int
 }
 
+export interface AggregateUser extends Promise<AggregateUserNode> {
+  count: () => Promise<Int>
+}
+
 /*
-The 'Long' scalar type represents non-fractional signed whole numeric values.
+The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
 */
 export type Long = string
@@ -1338,80 +628,748 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 */
 export type String = string
 
-export interface Schema {
-  query: Query
-  mutation: Mutation
-  subscription: Subscription
+/**
+ * Type Defs
+*/
+
+const typeDefs = `type AggregateTweet {
+  count: Int!
 }
 
-export type Query = {
-  users: (args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<User[]>
-  tweets: (args: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<Tweet[]>
-  user: (args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<User | null>
-  tweet: (args: { where: TweetWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet | null>
-  usersConnection: (args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<UserConnection>
-  tweetsConnection: (args: { where?: TweetWhereInput, orderBy?: TweetOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string) => Promise<TweetConnection>
-  node: (args: { id: ID_Output }, info?: GraphQLResolveInfo | string) => Promise<Node | null>
+type AggregateUser {
+  count: Int!
 }
 
-export type Mutation = {
-  createUser: (args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string) => Promise<User>
-  createTweet: (args: { data: TweetCreateInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet>
-  updateUser: (args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<User | null>
-  updateTweet: (args: { data: TweetUpdateInput, where: TweetWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet | null>
-  deleteUser: (args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<User | null>
-  deleteTweet: (args: { where: TweetWhereUniqueInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet | null>
-  upsertUser: (args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string) => Promise<User>
-  upsertTweet: (args: { where: TweetWhereUniqueInput, create: TweetCreateInput, update: TweetUpdateInput }, info?: GraphQLResolveInfo | string) => Promise<Tweet>
-  updateManyUsers: (args: { data: UserUpdateInput, where?: UserWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
-  updateManyTweets: (args: { data: TweetUpdateInput, where?: TweetWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
-  deleteManyUsers: (args: { where?: UserWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
-  deleteManyTweets: (args: { where?: TweetWhereInput }, info?: GraphQLResolveInfo | string) => Promise<BatchPayload>
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
 }
 
-export type Subscription = {
-  user: (args: { where?: UserSubscriptionWhereInput }, infoOrQuery?: GraphQLResolveInfo | string) => Promise<AsyncIterator<UserSubscriptionPayload>>
-  tweet: (args: { where?: TweetSubscriptionWhereInput }, infoOrQuery?: GraphQLResolveInfo | string) => Promise<AsyncIterator<TweetSubscriptionPayload>>
+"""
+The \`Long\` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  createTweet(data: TweetCreateInput!): Tweet!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateTweet(data: TweetUpdateInput!, where: TweetWhereUniqueInput!): Tweet
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteTweet(where: TweetWhereUniqueInput!): Tweet
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertTweet(where: TweetWhereUniqueInput!, create: TweetCreateInput!, update: TweetUpdateInput!): Tweet!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyTweets(data: TweetUpdateInput!, where: TweetWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyTweets(where: TweetWhereInput): BatchPayload!
 }
 
-export class Prisma extends BasePrisma {
-  
-  constructor({ endpoint, secret, fragmentReplacements, debug }: BasePrismaOptions) {
-    super({ typeDefs, endpoint, secret, fragmentReplacements, debug });
-  }
-
-  exists = {
-    User: (where: UserWhereInput): Promise<boolean> => super.existsDelegate('query', 'users', { where }, {}, '{ id }'),
-    Tweet: (where: TweetWhereInput): Promise<boolean> => super.existsDelegate('query', 'tweets', { where }, {}, '{ id }')
-  }
-
-  query: Query = {
-    users: (args, info): Promise<User[]> => super.delegate('query', 'users', args, {}, info),
-    tweets: (args, info): Promise<Tweet[]> => super.delegate('query', 'tweets', args, {}, info),
-    user: (args, info): Promise<User | null> => super.delegate('query', 'user', args, {}, info),
-    tweet: (args, info): Promise<Tweet | null> => super.delegate('query', 'tweet', args, {}, info),
-    usersConnection: (args, info): Promise<UserConnection> => super.delegate('query', 'usersConnection', args, {}, info),
-    tweetsConnection: (args, info): Promise<TweetConnection> => super.delegate('query', 'tweetsConnection', args, {}, info),
-    node: (args, info): Promise<Node | null> => super.delegate('query', 'node', args, {}, info)
-  }
-
-  mutation: Mutation = {
-    createUser: (args, info): Promise<User> => super.delegate('mutation', 'createUser', args, {}, info),
-    createTweet: (args, info): Promise<Tweet> => super.delegate('mutation', 'createTweet', args, {}, info),
-    updateUser: (args, info): Promise<User | null> => super.delegate('mutation', 'updateUser', args, {}, info),
-    updateTweet: (args, info): Promise<Tweet | null> => super.delegate('mutation', 'updateTweet', args, {}, info),
-    deleteUser: (args, info): Promise<User | null> => super.delegate('mutation', 'deleteUser', args, {}, info),
-    deleteTweet: (args, info): Promise<Tweet | null> => super.delegate('mutation', 'deleteTweet', args, {}, info),
-    upsertUser: (args, info): Promise<User> => super.delegate('mutation', 'upsertUser', args, {}, info),
-    upsertTweet: (args, info): Promise<Tweet> => super.delegate('mutation', 'upsertTweet', args, {}, info),
-    updateManyUsers: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'updateManyUsers', args, {}, info),
-    updateManyTweets: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'updateManyTweets', args, {}, info),
-    deleteManyUsers: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'deleteManyUsers', args, {}, info),
-    deleteManyTweets: (args, info): Promise<BatchPayload> => super.delegate('mutation', 'deleteManyTweets', args, {}, info)
-  }
-
-  subscription: Subscription = {
-    user: (args, infoOrQuery): Promise<AsyncIterator<UserSubscriptionPayload>> => super.delegateSubscription('user', args, {}, infoOrQuery),
-    tweet: (args, infoOrQuery): Promise<AsyncIterator<TweetSubscriptionPayload>> => super.delegateSubscription('tweet', args, {}, infoOrQuery)
-  }
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
 }
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  tweets(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tweet]!
+  user(where: UserWhereUniqueInput!): User
+  tweet(where: TweetWhereUniqueInput!): Tweet
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  tweetsConnection(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TweetConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  tweet(where: TweetSubscriptionWhereInput): TweetSubscriptionPayload
+}
+
+type Tweet implements Node {
+  id: ID!
+  text: String!
+  upload: String
+  slug: String
+  views: Int
+  author(where: UserWhereInput): User!
+}
+
+"""A connection to a list of items."""
+type TweetConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TweetEdge]!
+  aggregate: AggregateTweet!
+}
+
+input TweetCreateInput {
+  text: String!
+  upload: String
+  slug: String
+  views: Int
+  author: UserCreateOneWithoutTweetsInput!
+}
+
+input TweetCreateManyWithoutAuthorInput {
+  create: [TweetCreateWithoutAuthorInput!]
+  connect: [TweetWhereUniqueInput!]
+}
+
+input TweetCreateWithoutAuthorInput {
+  text: String!
+  upload: String
+  slug: String
+  views: Int
+}
+
+"""An edge in a connection."""
+type TweetEdge {
+  """The item at the end of the edge."""
+  node: Tweet!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TweetOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  upload_ASC
+  upload_DESC
+  slug_ASC
+  slug_DESC
+  views_ASC
+  views_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TweetPreviousValues {
+  id: ID!
+  text: String!
+  upload: String
+  slug: String
+  views: Int
+}
+
+type TweetSubscriptionPayload {
+  mutation: MutationType!
+  node: Tweet
+  updatedFields: [String!]
+  previousValues: TweetPreviousValues
+}
+
+input TweetSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TweetSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TweetSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TweetSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TweetWhereInput
+}
+
+input TweetUpdateInput {
+  text: String
+  upload: String
+  slug: String
+  views: Int
+  author: UserUpdateOneWithoutTweetsInput
+}
+
+input TweetUpdateManyWithoutAuthorInput {
+  create: [TweetCreateWithoutAuthorInput!]
+  connect: [TweetWhereUniqueInput!]
+  disconnect: [TweetWhereUniqueInput!]
+  delete: [TweetWhereUniqueInput!]
+  update: [TweetUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [TweetUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input TweetUpdateWithoutAuthorDataInput {
+  text: String
+  upload: String
+  slug: String
+  views: Int
+}
+
+input TweetUpdateWithWhereUniqueWithoutAuthorInput {
+  where: TweetWhereUniqueInput!
+  data: TweetUpdateWithoutAuthorDataInput!
+}
+
+input TweetUpsertWithWhereUniqueWithoutAuthorInput {
+  where: TweetWhereUniqueInput!
+  update: TweetUpdateWithoutAuthorDataInput!
+  create: TweetCreateWithoutAuthorInput!
+}
+
+input TweetWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TweetWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TweetWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TweetWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+  upload: String
+
+  """All values that are not equal to given value."""
+  upload_not: String
+
+  """All values that are contained in given list."""
+  upload_in: [String!]
+
+  """All values that are not contained in given list."""
+  upload_not_in: [String!]
+
+  """All values less than the given value."""
+  upload_lt: String
+
+  """All values less than or equal the given value."""
+  upload_lte: String
+
+  """All values greater than the given value."""
+  upload_gt: String
+
+  """All values greater than or equal the given value."""
+  upload_gte: String
+
+  """All values containing the given string."""
+  upload_contains: String
+
+  """All values not containing the given string."""
+  upload_not_contains: String
+
+  """All values starting with the given string."""
+  upload_starts_with: String
+
+  """All values not starting with the given string."""
+  upload_not_starts_with: String
+
+  """All values ending with the given string."""
+  upload_ends_with: String
+
+  """All values not ending with the given string."""
+  upload_not_ends_with: String
+  slug: String
+
+  """All values that are not equal to given value."""
+  slug_not: String
+
+  """All values that are contained in given list."""
+  slug_in: [String!]
+
+  """All values that are not contained in given list."""
+  slug_not_in: [String!]
+
+  """All values less than the given value."""
+  slug_lt: String
+
+  """All values less than or equal the given value."""
+  slug_lte: String
+
+  """All values greater than the given value."""
+  slug_gt: String
+
+  """All values greater than or equal the given value."""
+  slug_gte: String
+
+  """All values containing the given string."""
+  slug_contains: String
+
+  """All values not containing the given string."""
+  slug_not_contains: String
+
+  """All values starting with the given string."""
+  slug_starts_with: String
+
+  """All values not starting with the given string."""
+  slug_not_starts_with: String
+
+  """All values ending with the given string."""
+  slug_ends_with: String
+
+  """All values not ending with the given string."""
+  slug_not_ends_with: String
+  views: Int
+
+  """All values that are not equal to given value."""
+  views_not: Int
+
+  """All values that are contained in given list."""
+  views_in: [Int!]
+
+  """All values that are not contained in given list."""
+  views_not_in: [Int!]
+
+  """All values less than the given value."""
+  views_lt: Int
+
+  """All values less than or equal the given value."""
+  views_lte: Int
+
+  """All values greater than the given value."""
+  views_gt: Int
+
+  """All values greater than or equal the given value."""
+  views_gte: Int
+  author: UserWhereInput
+}
+
+input TweetWhereUniqueInput {
+  id: ID
+  slug: String
+}
+
+type User implements Node {
+  id: ID!
+  password: String!
+  username: String!
+  displayName: String!
+  tweets(where: TweetWhereInput, orderBy: TweetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tweet!]
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  password: String!
+  username: String!
+  displayName: String!
+  tweets: TweetCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneWithoutTweetsInput {
+  create: UserCreateWithoutTweetsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutTweetsInput {
+  password: String!
+  username: String!
+  displayName: String!
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge."""
+  node: User!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  password_ASC
+  password_DESC
+  username_ASC
+  username_DESC
+  displayName_ASC
+  displayName_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  password: String!
+  username: String!
+  displayName: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateInput {
+  password: String
+  username: String
+  displayName: String
+  tweets: TweetUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateOneWithoutTweetsInput {
+  create: UserCreateWithoutTweetsInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateWithoutTweetsDataInput
+  upsert: UserUpsertWithoutTweetsInput
+}
+
+input UserUpdateWithoutTweetsDataInput {
+  password: String
+  username: String
+  displayName: String
+}
+
+input UserUpsertWithoutTweetsInput {
+  update: UserUpdateWithoutTweetsDataInput!
+  create: UserCreateWithoutTweetsInput!
+}
+
+input UserWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  username: String
+
+  """All values that are not equal to given value."""
+  username_not: String
+
+  """All values that are contained in given list."""
+  username_in: [String!]
+
+  """All values that are not contained in given list."""
+  username_not_in: [String!]
+
+  """All values less than the given value."""
+  username_lt: String
+
+  """All values less than or equal the given value."""
+  username_lte: String
+
+  """All values greater than the given value."""
+  username_gt: String
+
+  """All values greater than or equal the given value."""
+  username_gte: String
+
+  """All values containing the given string."""
+  username_contains: String
+
+  """All values not containing the given string."""
+  username_not_contains: String
+
+  """All values starting with the given string."""
+  username_starts_with: String
+
+  """All values not starting with the given string."""
+  username_not_starts_with: String
+
+  """All values ending with the given string."""
+  username_ends_with: String
+
+  """All values not ending with the given string."""
+  username_not_ends_with: String
+  displayName: String
+
+  """All values that are not equal to given value."""
+  displayName_not: String
+
+  """All values that are contained in given list."""
+  displayName_in: [String!]
+
+  """All values that are not contained in given list."""
+  displayName_not_in: [String!]
+
+  """All values less than the given value."""
+  displayName_lt: String
+
+  """All values less than or equal the given value."""
+  displayName_lte: String
+
+  """All values greater than the given value."""
+  displayName_gt: String
+
+  """All values greater than or equal the given value."""
+  displayName_gte: String
+
+  """All values containing the given string."""
+  displayName_contains: String
+
+  """All values not containing the given string."""
+  displayName_not_contains: String
+
+  """All values starting with the given string."""
+  displayName_starts_with: String
+
+  """All values not starting with the given string."""
+  displayName_not_starts_with: String
+
+  """All values ending with the given string."""
+  displayName_ends_with: String
+
+  """All values not ending with the given string."""
+  displayName_not_ends_with: String
+  tweets_every: TweetWhereInput
+  tweets_some: TweetWhereInput
+  tweets_none: TweetWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  username: String
+}
+`
+
+export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({ typeDefs, endpoint: 'https://eu1.prisma.sh/nestjs/prisma-nest/dev' })
+export const prisma = new Prisma()

@@ -1,6 +1,7 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { GraphQLModule, GraphQLFactory } from '@nestjs/graphql';
-import { Prisma } from 'prisma-binding';
+import { Prisma } from './generated/prisma';
+import { resolvers } from './resolvers-orm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TweetsModule } from './tweets/tweets.module';
@@ -16,7 +17,6 @@ const { importSchema } = require('graphql-import');
 const path = require('path');
 
 const db = new Prisma({
-  typeDefs: 'src/generated/prisma.graphql', // the auto-generated GraphQL schema of the Prisma API
   endpoint: 'https://eu1.prisma.sh/nest/prisma-test2/dev', // the endpoint of the Prisma API (value set in `.env`)
   debug: true, // log all GraphQL queries & mutations sent to the Prisma API
   // secret: process.env.PRISMA_SECRET, // only needed if specified in `database/prisma.yml` (value set in `.env`)
@@ -50,6 +50,7 @@ export class AppModule {
     const schema = this.graphQLFactory.createSchema({ typeDefs });
     const server = new ApolloServer({
       schema,
+      resolvers,
       playground: true,
       context: async ({ req, connection }) => {
         return {

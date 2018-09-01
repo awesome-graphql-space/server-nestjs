@@ -12,7 +12,7 @@ import {
 } from '@nestjs/graphql';
 import { getUser, Context } from '../common/utils';
 import { UsersService } from './users.service';
-import { User } from './interfaces/user.interface';
+import { User } from '../generated/prisma';
 
 /**
  * User resolver
@@ -29,7 +29,7 @@ export class UsersResolvers {
    * @param info apollo server info
    */
   @Query()
-  async currentUser(obj, args: any, ctx: Context, info): Promise<User | any> {
+  async currentUser(obj, args: any, ctx: Context, info): Promise<User> {
     return await getUser(ctx);
   }
 }

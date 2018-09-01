@@ -37,8 +37,8 @@ export function getUserId(ctx: any): string {
  * @description gets the current user object
  * @param ctx takes the graphql context
  */
-export function getUser(ctx: any): Promise<any> {
-  return ctx.db.query.user({ where: { id: getUserId(ctx) } });
+export function getUser(ctx: Context): Promise<any> {
+  return ctx.db.user({ id: getUserId(ctx) });
 }
 
 /**

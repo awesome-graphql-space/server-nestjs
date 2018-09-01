@@ -30,23 +30,23 @@ export class TweetsResolvers {
    * @param info apollo server info
    */
   @Mutation()
-  post(obj, {text, upload}: any, ctx: Context, info){
+  post(obj, {text, upload}: any, ctx: Context, info): Promise<any>{
     const userId = getUserId(ctx);
 
     if (!userId) throw NotAuthenticatedError;
 
-    const tweet = ctx.db.mutation.createTweet({
-      data: {
-        author: {
-          connect: {
-            id: userId,
-          },
+    const tweet = ctx.db.createTweet({
+      author: {
+        connect: {
+          id: userId,
         },
-        text,
-        upload,
       },
+      text,
+      upload,
     });
-    pubsub.publish('DEAD_FISH', {lies: 'too many', fakeness: 'high'});
+
+    // pubsub.publish('DEAD_FISH', {lies: 'too many', fakeness: 'high'});
+
     return tweet;
   }
 
@@ -59,7 +59,7 @@ export class TweetsResolvers {
    */
   @Query()
   async tweets(obj, args: any, ctx: Context, info) {
-    return await ctx.db.query.tweets({orderBy: 'createdAt_DESC'}, info);
+    return await ctx.db.tweets({orderBy: 'createdAt_DESC'});
   }
 
   /**
@@ -70,16 +70,16 @@ export class TweetsResolvers {
    * @param info apollo server info
    */
   @Query()
-  async myTweets(obj, args: any, ctx: Context, info){
+  async myTweets(obj, args: any, ctx: Context, info) {
     const userId = getUserId(ctx);
     if (!userId) throw NotAuthenticatedError;
-    return await ctx.db.query.tweets({
+    return await ctx.db.tweets({
       where: {
         author: {
           id: userId,
         },
       },
-    }, info);
+    });
   }
 
   /**
