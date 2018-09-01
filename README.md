@@ -2,9 +2,7 @@
 
 <br />
 
-<p align="center">
-<a href="http://tinypic.com?ref=2e4yiy0" target="_blank"><img src="http://i66.tinypic.com/2e4yiy0.png" border="0" alt="Image and video hosting by TinyPic"></a>
-</p>
+
 
 <div align="center"><strong>Bootstrap your Nestjs Prisma app within seconds</strong></div>
 <div align="center">Comes with prisma api code completion, making writing prisma db queries fun doing</div>
