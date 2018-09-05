@@ -22,15 +22,25 @@ const db = new Prisma({
   // secret: process.env.PRISMA_SECRET, // only needed if specified in `database/prisma.yml` (value set in `.env`)
 });
 
+const typeDefs = importSchema(path.resolve('src/schema.graphql'));
+
 @Module({
   imports: [
     AuthModule,
     TweetsModule,
     UsersModule,
     GraphQLModule.forRoot({
-      typePaths: ['./**/*.graphql'],
-      debug: true,
-      playground: true,
+        typeDefs,
+        installSubscriptionHandlers: true,
+        resolvers,
+        context: async ({ req, connection }) => {
+          return {
+            ...req,
+            db,
+          };
+        },
+        debug: true,
+        playground: true,
     }),
   ],
   controllers: [AppController],
