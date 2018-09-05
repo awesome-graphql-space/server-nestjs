@@ -1,5 +1,5 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
-import { GraphQLModule, GraphQLFactory } from '@nestjs/graphql';
+import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
 import { Prisma } from './generated/prisma';
 import { resolvers } from './resolvers-orm';
 import { AppController } from './app.controller';
@@ -24,10 +24,14 @@ const db = new Prisma({
 
 @Module({
   imports: [
-    GraphQLModule,
     AuthModule,
     TweetsModule,
     UsersModule,
+    GraphQLModule.forRoot({
+      typePaths: ['./**/*.graphql'],
+      debug: true,
+      playground: true,
+    }),
   ],
   controllers: [AppController],
   providers: [
@@ -35,33 +39,7 @@ const db = new Prisma({
   ],
 })
 export class AppModule {
-  /**
-   * @description Construct the app module with graphql enabled
-   * @param graphQLFactory takes the nestjs graphql service service
-   */
-  constructor(
-    private readonly graphQLFactory: GraphQLFactory,
-  ) {}
 
-   configureGraphQL(app: any, httpServer: any) {
-
-    // Same as nestjs docs - graphql guide
-    const typeDefs = importSchema(path.resolve('src/schema.graphql'));
-    const schema = this.graphQLFactory.createSchema({ typeDefs });
-    const server = new ApolloServer({
-      schema,
-      resolvers,
-      playground: true,
-      context: async ({ req, connection }) => {
-        return {
-          ...req,
-          db,
-        };
-      },
-    });
-
-    server.applyMiddleware({ app });
-    server.installSubscriptionHandlers(httpServer);
-  }
+  constructor() {}
 
 }
