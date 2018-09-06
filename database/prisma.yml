@@ -1,6 +1,0 @@
-endpoint: ${env:PRISMA_URL}
-datamodel: datamodel.graphql
-hooks:
-  post-deploy:
-    - graphql get-schema --project prisma
-    - graphql prepare

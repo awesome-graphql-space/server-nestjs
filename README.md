@@ -14,7 +14,7 @@
 * For using Prisma as an end point you should signup to [prisma](https://app.prisma.io/) and deploy your server. If you want to read more about deploying (check out the prisma [docs](https://www.prisma.io/docs/reference/cli-command-reference/database-service/prisma-deploy-kee1iedaov/))
 ```
 PRISMA_URL="PRISMA_URL="https://eu1.prisma.sh/your-workspace/yourendpoint/dev"
-PORT=3000
+PORT=4000
 ```
 Here is the example of a .graphqlconfig.yml file that specifies that:
 
@@ -29,7 +29,7 @@ projects:
     schemaPath: src/schema.graphql
     extensions:
       endpoints:
-        default: http://localhost:3000
+        default: http://localhost:4000
   prisma:
     schemaPath: src/generated/prisma.graphql
     extensions:
@@ -62,14 +62,14 @@ $ npm install
 ## Setting up prisma
 
 ```bash
-# install prisma cli
-$ npm i prisma -g
+# login to prisma
+$ npm run prisma login
 
 # login to prisma cloud
 $ prisma login
 
 # deploy prisma database
-₦ prisma deploy
+₦ npm run prisma deploy
 ```
 
 ## Running the app
@@ -89,10 +89,10 @@ npm run start:prod
 
 ```bash
 # nestjs rest endpoint 
-localhost:3000
+localhost:4000
 
 # graphql and playground endpoint 
-localhost:3000/graphql
+localhost:4000/graphql
 ```
 Deploying server on now.sh
 

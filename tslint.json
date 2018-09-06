@@ -21,7 +21,7 @@
     ],
     "max-line-length": [
       true,
-      150
+      250
     ],
     "member-ordering": [
       false
@@ -33,14 +33,19 @@
     "array-type": [
       false
     ],
+    "callable-types": false,
     "no-empty-interface": false,
+    "ban-types": false,
     "no-empty": false,
     "arrow-parens": false,
     "object-literal-sort-keys": false,
+    "semicolon":false,
+    "jsdoc-format": false,
     "no-unused-expression": false,
     "max-classes-per-file": [
       false
     ],
+    "no-namespace": false,
     "variable-name": [
       false
     ],
