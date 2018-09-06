@@ -65,11 +65,15 @@ $ npm install
 # login to prisma
 $ npm run prisma login
 
-# login to prisma cloud
-$ prisma login
-
 # deploy prisma database
-₦ npm run prisma deploy
+$ npm run prisma deploy
+
+# generate prisma
+$ npm run prisma generate
+
+# generate graphql resolvers from schema.graphql
+$ npm run resolver-codegen
+
 ```
 
 ## Running the app
@@ -89,10 +93,10 @@ npm run start:prod
 
 ```bash
 # nestjs rest endpoint 
-localhost:4000
+localhost:3000
 
 # graphql and playground endpoint 
-localhost:4000/graphql
+localhost:3000/graphql
 ```
 Deploying server on now.sh
 
@@ -109,7 +113,7 @@ https://graphql-boilerplate-server-wqrtiyktjn.now.sh/graphql
 + [O] Authentication (Session)
 + [x] Prisma Graphql
 + [x] Apollo Server 2
-+ [O] Realtime subscription
++ [x] Realtime subscription
 + [x] Prisma Graphql
 + [O] File upload via rest
 + [O] File upload via graphql
