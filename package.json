@@ -2,7 +2,7 @@
   "name": "graphql-boilerplate-server",
   "version": "0.0.1",
   "description": "graphql boilerplate server",
-  "author": "Rex Raphael",
+  "author": "Rex Raphael, Manjula Dube",
   "keywords": [
     "nestjs",
     "react",
