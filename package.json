@@ -2,7 +2,16 @@
   "name": "graphql-boilerplate-server",
   "version": "0.0.1",
   "description": "graphql boilerplate server",
-  "author": "Rex Raphael, Manjula Dube",
+  "contributors": [
+    {
+      "name": "Rex Raphael",
+      "url": "https://github.com/johanjordaan"
+    },
+    {
+      "name": "Manjula Dube",
+      "url": "https://github.com/juicycleff"
+    }
+  ],
   "keywords": [
     "nestjs",
     "react",
