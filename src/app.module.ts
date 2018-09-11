@@ -3,7 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import * as path from 'path';
 import { importSchema } from 'graphql-import';
 import { Prisma } from './generated/prisma';
-import { resolvers } from './resolvers-orm';
+import { resolvers } from './resolvers';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
