@@ -4,4 +4,7 @@ generate:
   - generator: typescript
     output: ../src/generated/prisma.ts
 
+  - generator: graphql-schema
+    output: ../src/generated/prisma.graphql
+
 endpoint: https://eu1.prisma.sh/nestjs/prisma-nest/dev
