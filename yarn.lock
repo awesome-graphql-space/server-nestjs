@@ -627,8 +627,7 @@ apollo-server-express@2.0.0, apollo-server-express@^2.0.0:
     type-is "^1.6.16"
 
 apollo-server@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/apollo-server/-/apollo-server-2.0.0.tgz#f6172ef8e818b20801fe3e0739b93572c67630d2"
+  version "2.25.4"
   dependencies:
     apollo-server-core "2.0.0"
     apollo-server-express "2.0.0"
