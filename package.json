@@ -56,7 +56,7 @@
     "graphql-import": "^0.6.0",
     "graphql-subscriptions": "^0.5.8",
     "graphql-tools": "^3.1.1",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.10",
     "prisma-binding": "^2.1.4",
     "prisma-lib": "^0.1.20",
